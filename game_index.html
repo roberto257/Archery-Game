@@ -2,7 +2,7 @@
 <html lang="en"> 
 <head> 
     <meta charset="UTF-8" />
-    <title>TSA Video Game</title>
+    <title>Video Game</title>
     <script src="//cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
     <style type="text/css">
         body {
@@ -14,13 +14,18 @@
 
 <script type="text/javascript">
 
+    var physicsConfig = {
+        default: 'arcade',
+        arcade: {
+            debug: false //CHANGE THIS TO TRUE TO SEE LINES
+        }
+    }
+
     var config = {
         type: Phaser.AUTO,
         width: 800,
         height: 600,
-        physics: {
-            default: 'arcade'
-        },
+        physics: physicsConfig,
         scene: {
             preload: preload,
             create: create,
@@ -49,21 +54,24 @@
         //Load all the images
         this.add.image(400, 300, 'sky');
         this.add.image(200, 200, 'ground');
-        this.add.image(530, 365, 'target');
         this.add.image(300, 100, 'rings');
-
         //Create the archer/player
         this.player = this.physics.add.sprite(100, 410, 'archer');
-
+        //Create the target
+        this.target = this.physics.add.sprite(530, 365, 'target');
+        this.target.setSize(115, 95).setOffset(70, 130); //TARGET HITBOX
+        this.target.enableBody = true;
+        this.target.setImmovable();
         //Create an array for arrows later
         this.arrows = [];
-      
         //Get keypresses
         this.cursors = this.input.keyboard.createCursorKeys();
         //Assign input for spacebar
         this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-
+        //Play sound when the arrow is shot
         this.arrowSound = this.sound.add('arrow_shot');
+
+        this.physics.add.collider(this.arrows, this.target)
 
     }
 
@@ -72,7 +80,6 @@
         //Declare constants for movement
         const playerMoveAmt = 200;
         const arrowMoveAmt = 1500;
-        const arrowMoveYamt = 0;
         this.player.setDrag(2000); 
 
         //Move the player left or right
@@ -89,12 +96,17 @@
 
         //Shooting with the spacebar
         if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
-            let arrow = this.physics.add.sprite(100, 430, 'arrow');
+            let arrow = this.physics.add.sprite(this.player.x, (this.player.y + 20), 'arrow');
+            arrow.enableBody = true;
+            arrow.body.immovable = false;
+            arrow.setGravityY(4000);    //Gravity will affect the arrows
+            arrow.angle = this.player.angle //Angle the arrows with the player
             arrow.setVelocityX(arrowMoveAmt);
-            arrow.setVelocityY(arrowMoveYamt);
+            arrow.setVelocityY((this.player.angle * 50));
             this.arrows.push(arrow);
             this.arrowSound.play();
         }
+
 
     }
 
