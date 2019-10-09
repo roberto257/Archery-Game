@@ -13,14 +13,12 @@
 <body>
 
 <script type="text/javascript">
-
     var physicsConfig = {
         default: 'arcade',
         arcade: {
             debug: false //CHANGE THIS TO TRUE TO SEE LINES
         }
     }
-
     var config = {
         type: Phaser.AUTO,
         width: 800,
@@ -33,10 +31,8 @@
             render: render
         }
     };
-
     //Start the game
     var game = new Phaser.Game(config);
-
     function preload ()
     {
         this.load.image('sky', 'assets/sky.png');
@@ -46,9 +42,7 @@
         this.load.image('rings', 'assets/rings.png');
         this.load.image('arrow', 'assets/arrow.png');
         this.load.audio('arrow_shot', 'assets/arrow_shooting.mp3');
-
     }
-
     function create ()
     {   
         //Load all the images
@@ -66,7 +60,6 @@
             frameRate: 20,
             repeat: 0
         });
-
         //Create the target
         this.target = this.physics.add.sprite(530, 365, 'target');
         this.target.setSize(115, 95).setOffset(70, 130); //TARGET HITBOX
@@ -82,9 +75,7 @@
         this.arrowSound = this.sound.add('arrow_shot');
         //Make the arrows collide with the target
         this.physics.add.collider(this.arrows, this.target)
-
     }
-
     function update ()
     {   
         //Declare constants for movement
@@ -92,18 +83,11 @@
         const arrowMoveAmt = 1500;
         this.player.setDrag(2000); 
 
-        //Move the player left or right
-        if (this.cursors.right.isDown) 
-        this.player.setVelocityX(playerMoveAmt);
-        if (this.cursors.left.isDown)
-        this.player.setVelocityX(-playerMoveAmt);
-
         //Rotation of the player
         if (this.cursors.up.isDown && this.player.angle > -45) {
             this.player.angle -= 1;}
         if (this.cursors.down.isDown && this.player.angle < 0) {
             this.player.angle += 1;}
-
         //Shooting with the spacebar
         if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
             //Animate the shooting
@@ -120,11 +104,21 @@
             this.arrowSound.play();
         }
 
-    }
+        else if(this.target.body.touching.left) {
+            var i;
 
+            for (i = 0; i < this.arrows.length; i += 1) {
+            newArrows = this.arrows[i];
+
+            newArrows.setGravityY(0);
+            newArrows.setVelocityX(0);
+            newArrows.setVelocityY(0);
+            }
+        }
+    }
     function render() {
     }
-
 </script>
 </body>
 </html>
+
