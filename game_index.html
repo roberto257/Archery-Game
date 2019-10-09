@@ -46,7 +46,6 @@
         this.load.image('rings', 'assets/rings.png');
         this.load.image('arrow', 'assets/arrow.png');
         this.load.audio('arrow_shot', 'assets/arrow_shooting.mp3');
-
     }
 
     function create ()
@@ -81,22 +80,13 @@
         //Play sound when the arrow is shot
         this.arrowSound = this.sound.add('arrow_shot');
         //Make the arrows collide with the target
-        this.physics.add.collider(this.arrows, this.target)
-
     }
 
     function update ()
     {   
         //Declare constants for movement
-        const playerMoveAmt = 200;
         const arrowMoveAmt = 1500;
         this.player.setDrag(2000); 
-
-        //Move the player left or right
-        if (this.cursors.right.isDown) 
-        this.player.setVelocityX(playerMoveAmt);
-        if (this.cursors.left.isDown)
-        this.player.setVelocityX(-playerMoveAmt);
 
         //Rotation of the player
         if (this.cursors.up.isDown && this.player.angle > -45) {
@@ -118,6 +108,17 @@
             arrow.setVelocityY((this.player.angle * 50));
             this.arrows.push(arrow);
             this.arrowSound.play();
+        }
+        else if(this.target.body.touching.left) {
+            var i;
+
+            for (i = 0; i < this.arrows.length; i += 1) {
+                newArrows = this.arrows[i];
+
+                newArrows.setGravityY(0);
+                newArrows.setVelocityX(0);
+                newArrows.setVelocityY(0);
+            }
         }
 
     }
