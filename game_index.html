@@ -16,7 +16,7 @@
     var physicsConfig = {
         default: 'arcade',
         arcade: {
-            debug: false //CHANGE THIS TO TRUE TO SEE LINES
+            debug: true //CHANGE THIS TO TRUE TO SEE LINES
         }
     }
     var config = {
@@ -42,12 +42,13 @@
         this.load.image('rings', 'assets/rings.png');
         this.load.image('arrow', 'assets/arrow.png');
         this.load.audio('arrow_shot', 'assets/arrow_shooting.mp3');
+        this.load.image('gold_medal', 'assets/goldmedal.png');
     }
     function create ()
     {   
         //Load all the images
         this.add.image(400, 300, 'sky');
-        this.add.image(200, 200, 'ground');
+        this.add.image(210, 200, 'ground');
         this.add.image(300, 100, 'rings');
         //Create the archer/player
         this.player = this.physics.add.sprite(100, 410, 'archer');
@@ -85,9 +86,9 @@
 
         //Rotation of the player
         if (this.cursors.up.isDown && this.player.angle > -45) {
-            this.player.angle -= 1;}
+            this.player.angle -= .75;}
         if (this.cursors.down.isDown && this.player.angle < 0) {
-            this.player.angle += 1;}
+            this.player.angle += .75;}
         //Shooting with the spacebar
         if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
             //Animate the shooting
@@ -96,8 +97,9 @@
             let arrow = this.physics.add.sprite(this.player.x, (this.player.y + 20), 'arrow');
             arrow.enableBody = true;
             arrow.body.immovable = false;
-            arrow.setGravityY(4000);    //Gravity will affect the arrows
-            arrow.angle = this.player.angle //Angle the arrows with the player
+            //Edit arrow hitbox 
+            arrow.setSize(50, 15).setOffset(5, 50);
+            arrow.setGravityY(3600); //Gravity will affect the arrows
             arrow.setVelocityX(arrowMoveAmt);
             arrow.setVelocityY((this.player.angle * 50));
             this.arrows.push(arrow);
@@ -109,10 +111,13 @@
 
             for (i = 0; i < this.arrows.length; i += 1) {
             newArrows = this.arrows[i];
-
             newArrows.setGravityY(0);
             newArrows.setVelocityX(0);
             newArrows.setVelocityY(0);
+                //TODO- fix this!!!
+                if (510 < newArrows.y && newArrows.y < 530) { 
+                    this.add.image(300, 200, 'gold_medal')
+                }
             }
         }
     }
