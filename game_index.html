@@ -88,8 +88,11 @@
         this.target.enableBody = true;
         this.target.setImmovable();
 
-        //Create an array for arrows later
+        //Create an array for arrows for later
         this.arrows = [];
+
+        //Create an array for medals for later
+        this.medals = [];
 
         //Get keypresses
         this.cursors = this.input.keyboard.createCursorKeys();
@@ -107,8 +110,8 @@
         //Declare constants for movement
         const playerMoveAmt = 200;
         const arrowMoveAmt = 1500;
-        this.player.setDrag(2000); 
-
+        this.player.setDrag(2000);
+        
         //Rotation of the player
         if (this.cursors.up.isDown && this.player.angle > -45) {
             this.player.angle -= 1;}
@@ -118,7 +121,7 @@
 
         //Shooting with the spacebar
         if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
-
+            
             //Animate the shooting
             this.player.anims.play('shoot', true);
 
@@ -140,30 +143,46 @@
             this.arrowSound.play(); //Play the sound
         }
 
-        else if(this.target.body.touching.left) {
-            var i;
+        else if( this.target.body.touching.left) {
+
+            let i = 0;
+
+            //Set initial position of new medals
+            let arrowOnTargetPositionX = 200;
 
             //Loop to create multiple arrows
-            for (i = 0; i < this.arrows.length; i += 1) {
+            while (i < this.arrows.length) {
                 newArrows = this.arrows[i];
                 newArrows.setGravityY(0);
                 newArrows.setVelocityX(0);
                 newArrows.setVelocityY(0);
-                //Gold medal
-                if (410 < newArrows.y && newArrows.y < 435) {
-                    this.add.image(300, 200, 'gold_medal');
+
+                //Add 30 to the new medal's x position
+                arrowOnTargetPositionX = arrowOnTargetPositionX + 40;
+
+                //Call the function to determine medal and pass the variable
+                if(this.arrows.length <= 5) {
+                    getMedal(arrowOnTargetPositionX);
                 }
-                //Silver medal
-                else if (395 < newArrows.y && newArrows.y < 450) { 
-                    this.add.image(300, 200, 'silver_medal');
-                }
-                //Bronze medal
-                else if (380 < newArrows.y && newArrows.y < 460) {
-                    this.add.image(300, 200, 'bronze_medal')
-                }
+
+                i++;
+            }
+        }
+
+        getMedal = (value) => {
+            //Gold medal
+            if (410 < newArrows.y && newArrows.y < 435) {
+                this.add.image(value, 180, 'gold_medal');
+            }
+            else if (395 < newArrows.y && newArrows.y < 450) {
+                this.add.image(value, 180, 'silver_medal');
+            }
+            else if (380 < newArrows.y && newArrows.y < 460) {
+                this.add.image(value, 183, 'bronze_medal');
             }
         }
     }
+    
     function render() {
     }
 </script>
