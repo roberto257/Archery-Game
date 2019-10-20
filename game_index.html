@@ -52,6 +52,7 @@
         this.load.image('gold_medal', 'assets/images/goldmedal.png');
         this.load.image('silver_medal', 'assets/images/silvermedal.png');
         this.load.image('bronze_medal', 'assets/images/bronzemedal.png');
+        this.load.image('no_medal', 'assets/images/nomedal.png');
         //Spritesheets
         this.load.spritesheet('archer', 'assets/spritesheets/archer_sprites.png', {frameWidth: 128, frameHeight: 128});
         this.load.spritesheet('rings', 'assets/spritesheets/rings_sprite.png', {frameWidth: 320, frameHeight: 320});
@@ -181,6 +182,7 @@
             }
         }
 
+        //Function to decide medal, and where it goes
         getMedal = (value) => {
             //Gold medal
             if (410 < newArrows.y && newArrows.y < 435) {
@@ -196,6 +198,9 @@
             else if (380 < newArrows.y && newArrows.y < 460) {
                 this.add.image(value, 175, 'bronze_medal');
                 score += 1;
+            }
+            else {
+                this.add.image(value, 175, 'no_medal');
             }
             //Set the scoreboard to the new score
             scoreBoard.setText('SCORE: ' + score);
