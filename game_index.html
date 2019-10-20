@@ -20,6 +20,7 @@
             debug: false //CHANGE THIS TO TRUE TO SEE LINES
         }
     }
+    
     //Configurations for the game itself
     var config = {
         type: Phaser.AUTO,
@@ -33,6 +34,11 @@
             render: render
         }
     };
+
+    //Declare variables for the score (used later)
+    let score = 0;
+    let scoreBoard;
+
     //Start the game
     var game = new Phaser.Game(config);
 
@@ -91,9 +97,6 @@
         //Create an array for arrows for later
         this.arrows = [];
 
-        //Create an array for medals for later
-        this.medals = [];
-
         //Get keypresses
         this.cursors = this.input.keyboard.createCursorKeys();
         //Assign input for spacebar
@@ -104,6 +107,9 @@
 
         //Make the arrows collide with the target
         this.physics.add.collider(this.arrows, this.target)
+
+        //Add the scoreboard in
+        scoreBoard = this.add.text(420, 40, "SCORE: 0", {fontSize: '32px', fill: '#fff'});
     }
     function update ()
     {   
@@ -127,7 +133,9 @@
 
             //Arrow shooting
             let arrow = this.physics.add.sprite(this.player.x, (this.player.y + 20), 'arrow');
+            //Make sure the arrow has a hitbox
             arrow.enableBody = true;
+            //Let the arrow move
             arrow.body.immovable = false;
 
             //Edit arrow hitbox 
@@ -141,14 +149,16 @@
 
             this.arrows.push(arrow); //Add arrow to the arrow created earlier
             this.arrowSound.play(); //Play the sound
+
         }
 
         else if( this.target.body.touching.left) {
 
+            //Variable for loop
             let i = 0;
 
             //Set initial position of new medals
-            let arrowOnTargetPositionX = 200;
+            let firstMedalX = 180;
 
             //Loop to create multiple arrows
             while (i < this.arrows.length) {
@@ -158,28 +168,37 @@
                 newArrows.setVelocityY(0);
 
                 //Add 30 to the new medal's x position
-                arrowOnTargetPositionX = arrowOnTargetPositionX + 40;
+                firstMedalX = firstMedalX + 40;
 
-                //Call the function to determine medal and pass the variable
-                if(this.arrows.length <= 5) {
-                    getMedal(arrowOnTargetPositionX);
-                }
-
+                //Increment for every arrow shot
                 i++;
+            }
+
+            //Call the function to determine medal and pass the variable
+            if(this.arrows.length <= 5) {
+                //Only track the first five arrows
+                getMedal(firstMedalX);
             }
         }
 
         getMedal = (value) => {
             //Gold medal
             if (410 < newArrows.y && newArrows.y < 435) {
-                this.add.image(value, 180, 'gold_medal');
+                this.add.image(value, 175, 'gold_medal');
+                score += 5;
             }
+            //Silver medal
             else if (395 < newArrows.y && newArrows.y < 450) {
-                this.add.image(value, 180, 'silver_medal');
+                this.add.image(value, 175, 'silver_medal');
+                score += 3;
             }
+            //Bronze medal
             else if (380 < newArrows.y && newArrows.y < 460) {
-                this.add.image(value, 183, 'bronze_medal');
+                this.add.image(value, 175, 'bronze_medal');
+                score += 1;
             }
+            //Set the scoreboard to the new score
+            scoreBoard.setText('SCORE: ' + score);
         }
     }
     
