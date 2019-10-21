@@ -39,6 +39,9 @@
     let score = 0;
     let scoreBoard;
 
+    //Declare a modifier for modifying the firing angle 
+    var angleModifier = (Math.random() + .1) * 2;
+
     //Start the game
     var game = new Phaser.Game(config);
 
@@ -110,25 +113,26 @@
         this.physics.add.collider(this.arrows, this.target)
 
         //Add the scoreboard in
-        scoreBoard = this.add.text(420, 40, "SCORE: 0", {fontSize: '32px', fill: '#fff'});
+        scoreBoard = this.add.text(450, 40, "SCORE: 0", {fontSize: '26px', fill: '#fff'});
     }
+
     function update ()
     {   
         //Declare constants for movement
         const playerMoveAmt = 200;
         const arrowMoveAmt = 1500;
         this.player.setDrag(2000);
-        
+
         //Rotation of the player
         if (this.cursors.up.isDown && this.player.angle > -45) {
-            this.player.angle -= 1;}
+            this.player.angle -= angleModifier;}
 
         if (this.cursors.down.isDown && this.player.angle < 0) {
-            this.player.angle += 1;}
-
+            this.player.angle += angleModifier;}
+        
         //Shooting with the spacebar
         if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
-            
+
             //Animate the shooting
             this.player.anims.play('shoot', true);
 
@@ -138,22 +142,23 @@
             arrow.enableBody = true;
             //Let the arrow move
             arrow.body.immovable = false;
-
             //Edit arrow hitbox 
             arrow.setSize(50, 15).setOffset(5, 50);
 
             arrow.setGravityY(3600); //Gravity will affect the arrows
-
             //Arrow speeds
             arrow.setVelocityX(arrowMoveAmt);
             arrow.setVelocityY((this.player.angle * 50));
 
-            this.arrows.push(arrow); //Add arrow to the arrow created earlier
+            this.arrows.push(arrow); //Add arrow to the array created earlier
+
             this.arrowSound.play(); //Play the sound
 
+            //Reset the angle modifier for added difficulty
+            angleModifier = (Math.random() + .1) * 2;
         }
 
-        else if( this.target.body.touching.left) {
+        else if(this.target.body.touching.left) {
 
             //Variable for loop
             let i = 0;
@@ -173,6 +178,9 @@
 
                 //Increment for every arrow shot
                 i++;
+
+                //Reset the player angle for difficulty
+                this.player.angle = 0;
             }
 
             //Call the function to determine medal and pass the variable
