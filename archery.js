@@ -33,19 +33,19 @@ var game = new Phaser.Game(config);
 function preload ()
 {   
     //Images
-    this.load.image('sky', 'assets/images/sky.png');
-    this.load.image('target', 'assets/images/target.png');
-    this.load.image('ground', 'assets/images/ground.png');
-    this.load.image('arrow', 'assets/images/arrow.png');
-    this.load.image('gold_medal', 'assets/images/goldmedal.png');
-    this.load.image('silver_medal', 'assets/images/silvermedal.png');
-    this.load.image('bronze_medal', 'assets/images/bronzemedal.png');
-    this.load.image('no_medal', 'assets/images/nomedal.png');
+    this.load.image('sky', 'archery_assets/images/sky.png');
+    this.load.image('target', 'archery_assets/images/target.png');
+    this.load.image('ground', 'archery_assets/images/ground.png');
+    this.load.image('arrow', 'archery_assets/images/arrow.png');
+    this.load.image('gold_medal', 'archery_assets/images/goldmedal.png');
+    this.load.image('silver_medal', 'archery_assets/images/silvermedal.png');
+    this.load.image('bronze_medal', 'archery_assets/images/bronzemedal.png');
+    this.load.image('no_medal', 'archery_assets/images/nomedal.png');
     //Spritesheets
-    this.load.spritesheet('archer', 'assets/spritesheets/archer_sprites.png', {frameWidth: 128, frameHeight: 128});
-    this.load.spritesheet('rings', 'assets/spritesheets/rings_sprite.png', {frameWidth: 320, frameHeight: 320});
+    this.load.spritesheet('archer', 'archery_assets/spritesheets/archer_sprites.png', {frameWidth: 128, frameHeight: 128});
+    this.load.spritesheet('rings', 'archery_assets/spritesheets/rings_sprite.png', {frameWidth: 320, frameHeight: 320});
     //Audio
-    this.load.audio('arrow_shot', 'assets/sounds/arrow_shooting.mp3');
+    this.load.audio('arrow_shot', 'archery_assets/sounds/arrow_shooting.mp3');
 }
 function create ()
 {   
