@@ -104,7 +104,6 @@ function create ()
 function update ()
 {   
     //Declare constants for movement
-    const playerMoveAmt = 200;
     const arrowMoveAmt = 1500;
     this.player.setDrag(2000);
 
