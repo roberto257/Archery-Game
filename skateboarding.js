@@ -66,6 +66,7 @@ function create() {
     this.upRamp.setSize(320, 150).setOffset(0, 175);
     this.upRamp.enableBody = true;
     this.upRamp.setImmovable();
+    this.upRamp.body.angle = 150;
 
     //Input
     this.cursors = this.input.keyboard.createCursorKeys();
