@@ -1,8 +1,8 @@
 //Configurations for the physics engine
 var physicsConfig = {
-    default: 'arcade',
-    arcade : {
-        debug : true  //CHANGE THIS TO TRUE TO SEE LINES
+    default: 'matter',
+    matter : {
+        debug : false  //CHANGE THIS TO TRUE TO SEE LINES
     }
 }
 
@@ -22,51 +22,60 @@ var config = {
 //Start the game
 var game = new Phaser.Game(config);
 
+//Declare skater variable so we can access it in all functions
+var skater;
+
 function preload() {
     //Images
     this.load.image('sky', 'archery_assets/images/sky.png');
-    this.load.image('ground', 'skate_assets/images/ground.png');
-    this.load.image('up_ramp', 'skate_assets/images/up_ramp.png')
 
-    //Spritesheets
-    this.load.spritesheet('player', 'skate_assets/spritesheets/skater.png', {frameWidth: 160, frameHeight: 160});
-
+    //Load sprites from TexturePacker
+    this.load.atlas('sheet', 'skate_assets/sprites.png', 'skate_assets/sprites.json');
+    //Load body shapes from PhysicsEditor
+    this.load.json('shapes', 'skate_assets/spritesPE.json');
 }
 
 function create() {
+
     //Background
     skyImg = this.add.image(600, 300, 'sky');
     //Scale the images
     skyImg.setDisplaySize(1200, 600);
-    groundImg = this.add.image(600, 600, 'ground');
-    groundImg.setDisplaySize(1200, 250);
 
-    //Create the player
-    this.player = this.physics.add.sprite(100, 410, 'player');
-    this.player.setCollideWorldBounds(true);
+    //Get the hitboxes
+    var shapes = this.cache.json.get('shapes');
+    
+    //Set world bounds    
+    this.matter.world.setBounds(0, 0, 1200, 600);
 
-    //Rolling animation 
+    //Place ground object
+    var ground = this.matter.add.sprite(0, 0, 'sheet', 'ground', {shape: shapes.ground});
+    //Ground is 600x600, so double the x pixels and we get screen width
+    ground.setScale(2, 1);
+    ground.setPosition(300 + ground.centerOfMass.x, 150 + ground.centerOfMass.y);
+
+    //Place the first ramp
+    var upRamp = this.matter.add.sprite(0, 0, 'sheet', 'up_ramp', {shape: shapes.up_ramp});
+    upRamp.setPosition(600 + upRamp.centerOfMass.x, 200 + upRamp.centerOfMass.y);
+    upRamp.setFriction(0);
+
+    //Create the skater
+    skater = this.matter.add.sprite(0, 0, 'sheet', 'roll/0001', {shape: shapes.s0001});
+    skater.setPosition(100 + skater.centerOfMass.x, 200 + skater.centerOfMass.y);
+    
+    
+    //Roll animation
+    //Generate the frame names
+    var rollFrameNames = this.anims.generateFrameNames(
+        'sheet', {start: 1, end: 4, zeroPad: 4,
+        prefix: 'roll/'}
+    );
+    //Create the animation
     this.anims.create({
-        key: 'move',
-        frames: this.anims.generateFrameNumbers('player', {start: 0, end: 3}),
-        frameRate: 16,
-        repeat: -1 // <-- keeps the rolling animation going
+        key: 'roll', frames: rollFrameNames, frameRate: 16, repeat: -1
     });
-    //Pushing animation
-    this.anims.create({
-        key: 'push',
-        frames: this.anims.generateFrameNumbers('player', {start: 4, end: 8}),
-        frameRate: 16
-    });
-    //Start and keep the rolling animation going
-    this.player.anims.play('move', true);
+    skater.anims.play('roll');
 
-    //Up ramp (1st ramp)
-    this.upRamp = this.physics.add.sprite(700, 330, 'up_ramp');
-    this.upRamp.setSize(320, 150).setOffset(0, 175);
-    this.upRamp.enableBody = true;
-    this.upRamp.setImmovable();
-    this.upRamp.body.angle = 150;
 
     //Input
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -74,28 +83,18 @@ function create() {
     //Spacebar
     this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
-    this.physics.add.collider(this.player, this.upRamp);
 }
-
 
 function update() {
 
-    //Set variable for push speed
-    var playerPushSpeed = 0;
+    //Set variable for player movement
+    var pushSpeed = 0;
 
-    //If the spacebar is pressed 
     if (this.spacebar.isDown) {
-        //Play the push animation
-        this.player.anims.play('push', true);
 
-        //Push speed
-        playerPushSpeed += 175;
+        pushSpeed += 10;
 
-        //Move player
-        this.player.setVelocityX(playerPushSpeed);   
+        skater.setVelocityX(pushSpeed);
     }
 
-    if (this.upRamp.body.touching.left) {
-        this.player.setVelocityY(-200);
-    }
-}
+}   
