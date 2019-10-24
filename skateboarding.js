@@ -2,16 +2,15 @@
 var physicsConfig = {
     default: 'matter',
     matter : {
-        debug: true, //CHANGE THIS TO TRUE TO SEE LINES
-        debugShowVelocity : true
+        debug: false //CHANGE THIS TO TRUE TO SEE LINES
     }   
 }
 
 //Game configurations
 var config = {
     type: Phaser.AUTO,
-    width: 1200 ,
-    height: 600,
+    width: 1500 ,
+    height: 900,
     physics: physicsConfig,
     scene: {
         preload: preload,
@@ -39,25 +38,25 @@ function preload() {
 function create() {
 
     //Background
-    skyImg = this.add.image(600, 300, 'sky');
+    skyImg = this.add.image(750, 450, 'sky');
     //Scale the images
-    skyImg.setDisplaySize(1200, 600);
+    skyImg.setDisplaySize(1500, 900);
 
     //Get the hitboxes
     var shapes = this.cache.json.get('shapes');
     
     //Set world bounds    
-    this.matter.world.setBounds(0, 0, 1200, 600);
+    this.matter.world.setBounds(0, 0, 1500, 900);
 
     //Place ground object
     var ground = this.matter.add.sprite(0, 0, 'sheet', 'ground', {shape: shapes.ground});
     //Ground is 600x600, so double the x pixels and we get screen width
-    ground.setScale(2, 1);
-    ground.setPosition(300 + ground.centerOfMass.x, 150 + ground.centerOfMass.y);
+    ground.setScale(2.5, 1);
+    ground.setPosition(450  + ground.centerOfMass.x, 300 + ground.centerOfMass.y);
 
-    //Place the first ramp
-    var upRamp = this.matter.add.sprite(0, 0, 'sheet', 'up_ramp', {shape: shapes.up_ramp});
-    upRamp.setPosition(600 + upRamp.centerOfMass.x, 125  + upRamp.centerOfMass.y);
+    //Place the ramp
+    var ramp = this.matter.add.sprite(0, 0, 'sheet', 'ramp', {shape: shapes.ramp});
+    ramp.setPosition(500 + ramp.centerOfMass.x, 410  + ramp.centerOfMass.y);
 
     //Create the skater
     skater = this.matter.add.sprite(0, 0, 'sheet', 'roll/0001', {shape: shapes.s0001});
@@ -83,6 +82,20 @@ function create() {
         key: 'push', frames: pushFrameNames, frameRate: 16, repeat: 0 
     });
 
+    //Shuvit animation
+    var shuvFrameNames = this.anims.generateFrameNames(
+        'sheet', {start: 9, end: 12, zeroPad: 4,
+        prefix: 'shuv/'}
+    );
+    this.anims.create({
+        key: 'shuv', frames: shuvFrameNames, frameRate: 24, repeat: 0 
+    });
+
+    //This keeps the rolling animation going once the push animation is done
+    skater.on('animationcomplete', () => {
+        skater.anims.play('roll');
+    });
+
     //Input
     this.cursors = this.input.keyboard.createCursorKeys();
 
@@ -95,21 +108,28 @@ function update() {
 
     //Set variable for player movement
     var pushSpeed = 0;
+    var ollie = 0;
 
-    if (this.spacebar.isDown) {
+    if (this.cursors.right.isDown) {
         //Increase speed
-        pushSpeed += 10;
+        pushSpeed += 7.5;
 
         //Move player
         skater.setVelocityX(pushSpeed);
 
-    }
-    /*
-    do {
-        //Play roll animation
+        //Play push animation
         skater.anims.play('push');
     }
-    while 
-    */
 
+    if (this.spacebar.isDown) {
+
+        ollie += -8;
+
+        skater.setVelocityY(ollie);
+    }
+
+    if (this.cursors.down.isDown) {
+        //Play the shuvit animation
+        skater.anims.play('shuv');
+    }
 }   

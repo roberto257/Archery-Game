@@ -24,94 +24,14 @@
 			}
 		]
 	},
-	"up_ramp": {
-		"type": "fromPhysicsEditor",
-		"label": "up_ramp",
-		"isStatic": true,
-		"density": 0.1,
-		"restitution": 0,
-		"friction": 0.1,
-		"frictionAir": 0.01,
-		"frictionStatic": 0.5,
-		"collisionFilter": {
-			"group": 0,
-			"category": 1,
-			"mask": 255
-		},
-		"fixtures": [
-			{
-				"label": "",
-				"isSensor": false,
-				"vertices": [
-					[ { "x":320, "y":169 }, { "x":0, "y":319 }, { "x":320, "y":319 } ]
-				]
-			}
-		]
-	},
-	"center_ramp": {
-		"type": "fromPhysicsEditor",
-		"label": "center_ramp",
-		"isStatic": false,
-		"density": 0.10000000149011612,
-		"restitution": 0,
-		"friction": 0.10000000149011612,
-		"frictionAir": 0.009999999776482582,
-		"frictionStatic": 0.5,
-		"collisionFilter": {
-			"group": 0,
-			"category": 1,
-			"mask": 255
-		},
-		"fixtures": [
-			{
-				"label": "",
-				"isSensor": false,
-				"vertices": [
-					[ { "x":80, "y":140 }, { "x":240, "y":140 }, { "x":240, "y":130 }, { "x":80, "y":130 } ],
-					[ { "x":0, "y":180 }, { "x":0, "y":320 }, { "x":320, "y":320 }, { "x":320, "y":180 } ],
-					[ { "x":90, "y":180 }, { "x":230, "y":180 }, { "x":230, "y":140 }, { "x":90, "y":140 } ]
-				]
-			}
-		]
-	},
-	"stair": {
-		"type": "fromPhysicsEditor",
-		"label": "stair",
-		"isStatic": false,
-		"density": 0.10000000149011612,
-		"restitution": 0,
-		"friction": 0.10000000149011612,
-		"frictionAir": 0.009999999776482582,
-		"frictionStatic": 0.5,
-		"collisionFilter": {
-			"group": 0,
-			"category": 1,
-			"mask": 255
-		},
-		"fixtures": [
-			{
-				"label": "",
-				"isSensor": false,
-				"vertices": [
-					[ { "x":300, "y":260 }, { "x":230, "y":260 }, { "x":300, "y":310 } ],
-					[ { "x":0, "y":180 }, { "x":0, "y":320 }, { "x":90, "y":210 }, { "x":90, "y":180 } ],
-					[ { "x":320, "y":310 }, { "x":300, "y":310 }, { "x":320, "y":320 } ],
-					[ { "x":160, "y":210 }, { "x":90, "y":210 }, { "x":160, "y":240 } ],
-					[ { "x":230, "y":240 }, { "x":160, "y":240 }, { "x":230, "y":260 } ],
-					[ { "x":230, "y":260 }, { "x":160, "y":240 }, { "x":300, "y":310 } ],
-					[ { "x":0, "y":320 }, { "x":320, "y":320 }, { "x":160, "y":240 }, { "x":90, "y":210 } ]
-				]
-			}
-		]
-	},
-	"s0001": {   
+	"s0001": {
 		"type": "fromPhysicsEditor",
 		"label": "s0001",
 		"isStatic": false,
-		"density": 0.3,
+		"density": 0.5,
 		"restitution": 0,
-		"friction": 0.05,
-		"frictionAir": 0.002,
+		"friction": 0.01,
+		"frictionAir": 0.02,
 		"frictionStatic": 0.5,
 		"collisionFilter": {
 			"group": 0,
@@ -119,7 +39,7 @@
 			"mask": 255
 		},
 		"fixtures": [
-			{   
+			{
 				"label": "",
 				"isSensor": false,
 				"vertices": [
@@ -910,6 +830,39 @@
 					[ { "x":115, "y":95 }, { "x":105, "y":75 }, { "x":105, "y":95 } ],
 					[ { "x":50, "y":75 }, { "x":55, "y":95 }, { "x":60, "y":5 }, { "x":50, "y":65 } ],
 					[ { "x":60, "y":0 }, { "x":60, "y":5 }, { "x":70, "y":130 }, { "x":100, "y":130 }, { "x":105, "y":95 } ]
+				]
+			}
+		]
+	},
+	"ramp": {
+		"type": "fromPhysicsEditor",
+		"label": "ramp",
+		"isStatic": true,
+		"density": 0.1,
+		"restitution": 0,
+		"friction": 0.1,
+		"frictionAir": 0.001,
+		"frictionStatic": 0.5,
+		"collisionFilter": {
+			"group": 0,
+			"category": 1,
+			"mask": 255
+		},
+		"fixtures": [
+			{
+				"label": "",
+				"isSensor": false,
+				"vertices": [
+					[ { "x":400, "y":140 }, { "x":410, "y":140 }, { "x":570, "y":130 }, { "x":400, "y":130 } ],
+					[ { "x":570, "y":140 }, { "x":570, "y":130 }, { "x":560, "y":140 } ],
+					[ { "x":940, "y":260 }, { "x":870, "y":260 }, { "x":940, "y":320 } ],
+					[ { "x":800, "y":210 }, { "x":730, "y":210 }, { "x":800, "y":240 } ],
+					[ { "x":870, "y":240 }, { "x":800, "y":240 }, { "x":870, "y":260 } ],
+					[ { "x":10, "y":320 }, { "x":940, "y":320 }, { "x":870, "y":260 }, { "x":560, "y":180 }, { "x":290, "y":180 } ],
+					[ { "x":730, "y":180 }, { "x":560, "y":180 }, { "x":730, "y":210 } ],
+					[ { "x":730, "y":210 }, { "x":560, "y":180 }, { "x":800, "y":240 } ],
+					[ { "x":410, "y":140 }, { "x":410, "y":180 }, { "x":560, "y":140 }, { "x":570, "y":130 } ],
+					[ { "x":560, "y":140 }, { "x":410, "y":180 }, { "x":560, "y":180 } ]
 				]
 			}
 		]
