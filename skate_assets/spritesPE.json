@@ -27,7 +27,7 @@
 	"up_ramp": {
 		"type": "fromPhysicsEditor",
 		"label": "up_ramp",
-		"isStatic": false,
+		"isStatic": true,
 		"density": 0.1,
 		"restitution": 0,
 		"friction": 0.1,
@@ -104,14 +104,14 @@
 			}
 		]
 	},
-	"s0001": {
+	"s0001": {   
 		"type": "fromPhysicsEditor",
 		"label": "s0001",
 		"isStatic": false,
-		"density": 0.10000000149011612,
+		"density": 0.3,
 		"restitution": 0,
-		"friction": 0.10000000149011612,
-		"frictionAir": 0.009999999776482582,
+		"friction": 0.05,
+		"frictionAir": 0.002,
 		"frictionStatic": 0.5,
 		"collisionFilter": {
 			"group": 0,
@@ -119,7 +119,7 @@
 			"mask": 255
 		},
 		"fixtures": [
-			{
+			{   
 				"label": "",
 				"isSensor": false,
 				"vertices": [

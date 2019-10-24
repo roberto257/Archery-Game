@@ -2,8 +2,9 @@
 var physicsConfig = {
     default: 'matter',
     matter : {
-        debug : false  //CHANGE THIS TO TRUE TO SEE LINES
-    }
+        debug: true, //CHANGE THIS TO TRUE TO SEE LINES
+        debugShowVelocity : true
+    }   
 }
 
 //Game configurations
@@ -56,14 +57,11 @@ function create() {
 
     //Place the first ramp
     var upRamp = this.matter.add.sprite(0, 0, 'sheet', 'up_ramp', {shape: shapes.up_ramp});
-    upRamp.setPosition(600 + upRamp.centerOfMass.x, 200 + upRamp.centerOfMass.y);
-    upRamp.setFriction(0);
-    upRamp.setBounce(0);
+    upRamp.setPosition(600 + upRamp.centerOfMass.x, 125  + upRamp.centerOfMass.y);
 
     //Create the skater
     skater = this.matter.add.sprite(0, 0, 'sheet', 'roll/0001', {shape: shapes.s0001});
     skater.setPosition(100 + skater.centerOfMass.x, 200 + skater.centerOfMass.y);
-    
 
     //Roll animation
     //Generate the frame names
@@ -75,15 +73,22 @@ function create() {
     this.anims.create({
         key: 'roll', frames: rollFrameNames, frameRate: 16, repeat: -1
     });
-    skater.anims.play('roll');
 
+    //Push animation
+    var pushFrameNames = this.anims.generateFrameNames(
+        'sheet', {start: 5, end: 8, zeroPad: 4,
+        prefix: 'push/'}
+    );
+    this.anims.create({
+        key: 'push', frames: pushFrameNames, frameRate: 16, repeat: 0 
+    });
 
     //Input
     this.cursors = this.input.keyboard.createCursorKeys();
 
     //Spacebar
     this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-
+    
 }
 
 function update() {
@@ -92,10 +97,19 @@ function update() {
     var pushSpeed = 0;
 
     if (this.spacebar.isDown) {
-
+        //Increase speed
         pushSpeed += 10;
 
+        //Move player
         skater.setVelocityX(pushSpeed);
+
     }
+    /*
+    do {
+        //Play roll animation
+        skater.anims.play('push');
+    }
+    while 
+    */
 
 }   
