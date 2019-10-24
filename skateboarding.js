@@ -58,12 +58,13 @@ function create() {
     var upRamp = this.matter.add.sprite(0, 0, 'sheet', 'up_ramp', {shape: shapes.up_ramp});
     upRamp.setPosition(600 + upRamp.centerOfMass.x, 200 + upRamp.centerOfMass.y);
     upRamp.setFriction(0);
+    upRamp.setBounce(0);
 
     //Create the skater
     skater = this.matter.add.sprite(0, 0, 'sheet', 'roll/0001', {shape: shapes.s0001});
     skater.setPosition(100 + skater.centerOfMass.x, 200 + skater.centerOfMass.y);
     
-    
+
     //Roll animation
     //Generate the frame names
     var rollFrameNames = this.anims.generateFrameNames(
