@@ -91,6 +91,15 @@ function create() {
         key: 'shuv', frames: shuvFrameNames, frameRate: 24, repeat: 0 
     });
 
+    //Ollie animation
+    var ollieFrameNames = this.anims.generateFrameNames(
+        'sheet', {start: 13, end: 20, zeroPad: 4,
+        prefix: 'ollie/'}
+    );
+    this.anims.create({
+        key: 'ollie', frames: ollieFrameNames, frameRate: 40, repeat: 0
+    });
+
     //This keeps the rolling animation going once the push animation is done
     skater.on('animationcomplete', () => {
         skater.anims.play('roll');
@@ -112,7 +121,7 @@ function update() {
 
     if (this.cursors.right.isDown) {
         //Increase speed
-        pushSpeed += 7.5;
+        pushSpeed += 5;
 
         //Move player
         skater.setVelocityX(pushSpeed);
@@ -122,9 +131,13 @@ function update() {
     }
 
     if (this.spacebar.isDown) {
+        //Play the ollie animation
+        skater.anims.play('ollie');
 
+        //Set ollie power
         ollie += -8;
 
+        //Set skate velocity
         skater.setVelocityY(ollie);
     }
 
