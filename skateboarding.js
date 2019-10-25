@@ -2,6 +2,10 @@
 var physicsConfig = {
     default: 'matter',
     matter : {
+        gravity: {
+            x: 0,
+            y: 2.5, // <--This is the only way I could get the skater to roll up the ramp.
+        },
         debug: false //CHANGE THIS TO TRUE TO SEE LINES
     }   
 }
@@ -25,6 +29,8 @@ var game = new Phaser.Game(config);
 //Declare skater variable so we can access it in all functions
 var skater;
 
+//Declare sky for rolling background
+
 function preload() {
     //Images
     this.load.image('sky', 'archery_assets/images/sky.png');
@@ -38,15 +44,15 @@ function preload() {
 function create() {
 
     //Background
-    skyImg = this.add.image(750, 450, 'sky');
+    this.bg = this.add.tileSprite(0, 0, 1500, 900, 'sky').setOrigin(0);
     //Scale the images
-    skyImg.setDisplaySize(1500, 900);
+    this.bg.setDisplaySize(1500, 1500);
 
     //Get the hitboxes
     var shapes = this.cache.json.get('shapes');
     
     //Set world bounds    
-    this.matter.world.setBounds(0, 0, 1500, 900);
+    this.matter.world.setBounds(0, 0, 3000, 900);
 
     //Place ground object
     var ground = this.matter.add.sprite(0, 0, 'sheet', 'ground', {shape: shapes.ground});
@@ -97,7 +103,7 @@ function create() {
         prefix: 'ollie/'}
     );
     this.anims.create({
-        key: 'ollie', frames: ollieFrameNames, frameRate: 40, repeat: 0
+        key: 'ollie', frames: ollieFrameNames, frameRate: 24, repeat: 0
     });
 
     //This keeps the rolling animation going once the push animation is done
@@ -105,7 +111,7 @@ function create() {
         skater.anims.play('roll');
     });
 
-    //Input
+    //Input for arrowkeys
     this.cursors = this.input.keyboard.createCursorKeys();
 
     //Spacebar
@@ -114,6 +120,8 @@ function create() {
 }
 
 function update() {
+    //Update background
+    this.bg.tilePositionX += 5;
 
     //Set variable for player movement
     var pushSpeed = 0;
@@ -121,7 +129,7 @@ function update() {
 
     if (this.cursors.right.isDown) {
         //Increase speed
-        pushSpeed += 5;
+        pushSpeed += 7;
 
         //Move player
         skater.setVelocityX(pushSpeed);
@@ -135,7 +143,7 @@ function update() {
         skater.anims.play('ollie');
 
         //Set ollie power
-        ollie += -8;
+        ollie += -10;
 
         //Set skate velocity
         skater.setVelocityY(ollie);
