@@ -10,11 +10,15 @@ var physicsConfig = {
     }   
 }
 
+//Variables for height and width
+var gameHeight = 900;
+var gameWidth = 3000;
+
 //Game configurations
 var config = {
     type: Phaser.AUTO,
-    width: 1500 ,
-    height: 900,
+    width: 1500, //<-- this is the width of what we will see at one time
+    height: gameHeight,
     physics: physicsConfig,
     scene: {
         preload: preload,
@@ -29,7 +33,8 @@ var game = new Phaser.Game(config);
 //Declare skater variable so we can access it in all functions
 var skater;
 
-//Declare sky for rolling background
+//Declare variable for the sky background
+var sky;
 
 function preload() {
     //Images
@@ -44,21 +49,21 @@ function preload() {
 function create() {
 
     //Background
-    this.bg = this.add.tileSprite(0, 0, 1500, 900, 'sky').setOrigin(0);
-    //Scale the images
-    this.bg.setDisplaySize(1500, 1500);
+    sky = this.add.image(1500, 450,'sky')
+    //Scale the image
+    sky.setDisplaySize(gameWidth, gameHeight);
 
     //Get the hitboxes
     var shapes = this.cache.json.get('shapes');
     
     //Set world bounds    
-    this.matter.world.setBounds(0, 0, 3000, 900);
+    this.matter.world.setBounds(0, 0, gameWidth, gameHeight);
 
     //Place ground object
     var ground = this.matter.add.sprite(0, 0, 'sheet', 'ground', {shape: shapes.ground});
     //Ground is 600x600, so double the x pixels and we get screen width
-    ground.setScale(2.5, 1);
-    ground.setPosition(450  + ground.centerOfMass.x, 300 + ground.centerOfMass.y);
+    ground.setScale(5, 1);
+    ground.setPosition(1500, 810);
 
     //Place the ramp
     var ramp = this.matter.add.sprite(0, 0, 'sheet', 'ramp', {shape: shapes.ramp});
@@ -112,22 +117,29 @@ function create() {
     });
 
     //Input for arrowkeys
-    this.cursors = this.input.keyboard.createCursorKeys();
+    this.arrowKeys = this.input.keyboard.addKeys({
+        up: 'up',
+        down: 'down',
+        left: 'left',
+        right: 'right'
+    }); 
 
     //Spacebar
     this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+    //Camera to follow the skater
+    this.cameras.main.setBounds(0, 0, 3000, gameHeight);
+    this.cameras.main.startFollow(skater);
     
 }
 
 function update() {
-    //Update background
-    this.bg.tilePositionX += 5;
-
     //Set variable for player movement
     var pushSpeed = 0;
     var ollie = 0;
 
-    if (this.cursors.right.isDown) {
+    //Push
+    if (this.arrowKeys.right.isDown && skater.angle > -60 && skater.angle < 60) {
         //Increase speed
         pushSpeed += 7;
 
@@ -138,7 +150,8 @@ function update() {
         skater.anims.play('push');
     }
 
-    if (this.spacebar.isDown) {
+    //Ollie
+    if (this.spacebar.isDown && skater.y > 461) {
         //Play the ollie animation
         skater.anims.play('ollie');
 
@@ -149,8 +162,15 @@ function update() {
         skater.setVelocityY(ollie);
     }
 
-    if (this.cursors.down.isDown) {
+    //Shuvit
+    if (this.arrowKeys.down.isDown) {
         //Play the shuvit animation
         skater.anims.play('shuv');
+    }
+
+    //Tilting backwards in the air
+    if (this.arrowKeys.left.isDown && skater.y < 635) {
+        //Be able to turn backwards so you don't flip
+        skater.angle -= 5;
     }
 }   
