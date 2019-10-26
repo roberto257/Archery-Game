@@ -123,6 +123,15 @@ function create() {
         key: 'ollie', frames: ollieFrameNames, frameRate: 24, repeat: 0
     });
 
+    //Kickflip animation
+    var kfFrameNames = this.anims.generateFrameNames(
+        'sheet', {start: 21, end: 33, zeroPad: 4,
+        prefix: 'kickflip/'}
+    );
+    this.anims.create({
+        key: 'kickflip', frames: kfFrameNames, frameRate: 24, repeat: 0
+    });
+
     //This keeps the rolling animation going once the push animation is done
     skater.on('animationcomplete', () => {
         skater.anims.play('roll');
@@ -135,6 +144,14 @@ function create() {
         left: 'left',
         right: 'right'
     }); 
+
+    //Input for WASD keys
+    this.WASDkeys = this.input.keyboard.addKeys({
+        W: 'W',
+        A: 'A',
+        S: 'S',
+        D: 'D'
+    });
 
     //Spacebar
     this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
@@ -179,6 +196,15 @@ function update() {
     if (this.arrowKeys.down.isDown) {
         //Play the shuvit animation
         skater.anims.play('shuv');
+    }
+
+    //Kickflip
+    if (this.WASDkeys.W.isDown) {
+        ollie = -8
+
+        skater.setVelocityY(ollie);
+
+        skater.anims.play('kickflip');
     }
 
     //Tilting backwards in the air
