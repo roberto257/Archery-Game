@@ -11,7 +11,7 @@ var physicsConfig = {
 }
 
 //Variables for height and width
-var gameHeight = 900;
+var gameHeight = 750;
 var gameWidth = 3000;
 
 //Game configurations
@@ -30,8 +30,10 @@ var config = {
 //Start the game
 var game = new Phaser.Game(config);
 
-//Declare skater variable so we can access it in all functions
+//Declare variables so we can access them in all functions
 var skater;
+
+var ground;
 
 //Declare variable for the sky background
 var sky;
@@ -49,7 +51,7 @@ function preload() {
 function create() {
 
     //Background
-    sky = this.add.image(1500, 450,'sky')
+    sky = this.add.image(1500, 325,'sky')
     //Scale the image
     sky.setDisplaySize(gameWidth, gameHeight);
 
@@ -60,18 +62,28 @@ function create() {
     this.matter.world.setBounds(0, 0, gameWidth, gameHeight);
 
     //Place ground object
-    var ground = this.matter.add.sprite(0, 0, 'sheet', 'ground', {shape: shapes.ground});
+    ground = this.matter.add.sprite(0, 0, 'sheet', 'ground', {shape: shapes.ground});
     //Ground is 600x600, so double the x pixels and we get screen width
     ground.setScale(5, 1);
-    ground.setPosition(1500, 810);
+    ground.setPosition(1500, 650);
+    //Let the ground detect collisions 
+    ground.isSensor(true);
 
     //Place the ramp
     var ramp = this.matter.add.sprite(0, 0, 'sheet', 'ramp', {shape: shapes.ramp});
-    ramp.setPosition(500 + ramp.centerOfMass.x, 410  + ramp.centerOfMass.y);
+    ramp.setPosition(550 + ramp.centerOfMass.x, 250  + ramp.centerOfMass.y);
 
     //Create the skater
     skater = this.matter.add.sprite(0, 0, 'sheet', 'roll/0001', {shape: shapes.s0001});
     skater.setPosition(100 + skater.centerOfMass.x, 200 + skater.centerOfMass.y);
+
+    //Collision filtering
+    var staticCategory = this.matter.world.nextCategory();
+    ramp.setCollisionCategory(staticCategory);
+    ground.setCollisionCategory(staticCategory);
+
+    var skaterCategory = this.matter.world.nextCategory();
+    skater.setCollisionCategory(skaterCategory);
 
     //Roll animation
     //Generate the frame names
@@ -99,7 +111,7 @@ function create() {
         prefix: 'shuv/'}
     );
     this.anims.create({
-        key: 'shuv', frames: shuvFrameNames, frameRate: 24, repeat: 0 
+        key: 'shuv', frames: shuvFrameNames, frameRate: 32, repeat: 0 
     });
 
     //Ollie animation
@@ -139,9 +151,9 @@ function update() {
     var ollie = 0;
 
     //Push
-    if (this.arrowKeys.right.isDown && skater.angle > -60 && skater.angle < 60) {
+    if (this.spacebar.isDown && skater.angle > -60 && skater.angle < 60) {
         //Increase speed
-        pushSpeed += 7;
+        pushSpeed = 10;
 
         //Move player
         skater.setVelocityX(pushSpeed);
@@ -151,15 +163,16 @@ function update() {
     }
 
     //Ollie
-    if (this.spacebar.isDown && skater.y > 461) {
-        //Play the ollie animation
-        skater.anims.play('ollie');
-
+    if (Phaser.Input.Keyboard.JustDown(this.arrowKeys.up)) {
         //Set ollie power
-        ollie += -10;
+        ollie = -12;
 
         //Set skate velocity
         skater.setVelocityY(ollie);
+
+        //Play the ollie animation
+        skater.anims.play('ollie');
+
     }
 
     //Shuvit
@@ -169,8 +182,15 @@ function update() {
     }
 
     //Tilting backwards in the air
-    if (this.arrowKeys.left.isDown && skater.y < 635) {
+    if (this.arrowKeys.left.isDown && skater.y < 470) {
         //Be able to turn backwards so you don't flip
-        skater.angle -= 5;
+        skater.angle -= 3 ;
     }
+    //Tilting forwards in the air
+    if (this.arrowKeys.right.isDown && skater.y < 470) {
+        //Be able to turn forwards so you don't flip
+        skater.angle += 3 ;
+    }
+
+
 }   
