@@ -13,7 +13,7 @@ var physicsConfig = {
 //Variables for height and width
 var gameHeight = 750;
 var gameWidth = 3000;
-
+    
 //Game configurations
 var config = {
     type: Phaser.AUTO,
@@ -27,15 +27,16 @@ var config = {
     }   
 }
 
+/* This variable will be used to make sure the skater 
+cannot ollie while he is already in the air */
+let skaterTouchingGround;
+
 //Start the game
 var game = new Phaser.Game(config);
 
 //Declare variables so we can access them in all functions
 var skater;
-
 var ground;
-
-//Declare variable for the sky background
 var sky;
 
 function preload() {
@@ -159,7 +160,12 @@ function create() {
     //Camera to follow the skater
     this.cameras.main.setBounds(0, 0, 3000, gameHeight);
     this.cameras.main.startFollow(skater);
-    
+
+    //Detect the player's collision with the ground
+    this.matter.world.on('collisionactive', (skater, ground) => {
+        skaterTouchingGround = true;
+    });
+
 }
 
 function update() {
@@ -168,7 +174,7 @@ function update() {
     var ollie = 0;
 
     //Push
-    if (this.spacebar.isDown && skater.angle > -60 && skater.angle < 60) {
+    if (this.spacebar.isDown && skater.angle > -60 && skater.angle < 60 && skaterTouchingGround) {
         //Increase speed
         pushSpeed = 10;
 
@@ -180,7 +186,10 @@ function update() {
     }
 
     //Ollie
-    if (Phaser.Input.Keyboard.JustDown(this.arrowKeys.up)) {
+    if (Phaser.Input.Keyboard.JustDown(this.arrowKeys.up) && skaterTouchingGround) {
+        //Set this to false, because we are about to jump
+        skaterTouchingGround = false;
+
         //Set ollie power
         ollie = -12;
 
@@ -199,24 +208,25 @@ function update() {
     }
 
     //Kickflip
-    if (this.WASDkeys.W.isDown) {
+    if (this.WASDkeys.W.isDown && skaterTouchingGround) {
+        //Set jump height
         ollie = -8
 
+        //Move the player
         skater.setVelocityY(ollie);
 
+        //Play animation
         skater.anims.play('kickflip');
     }
 
     //Tilting backwards in the air
-    if (this.arrowKeys.left.isDown && skater.y < 470) {
+    if (this.arrowKeys.left.isDown && !skaterTouchingGround) {
         //Be able to turn backwards so you don't flip
         skater.angle -= 3 ;
     }
     //Tilting forwards in the air
-    if (this.arrowKeys.right.isDown && skater.y < 470) {
+    if (this.arrowKeys.right.isDown && !skaterTouchingGround) {
         //Be able to turn forwards so you don't flip
         skater.angle += 3 ;
     }
-
-
 }   
