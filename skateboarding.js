@@ -171,14 +171,15 @@ function create() {
     });
 
     //Scoreboard
-    scoreBoard = this.add.container(skater.x, 50);
-    scoreText = this.add.text(skater.x, 50, "SCORE: 0", {fontSize: '56px', color: '#fff'});
+    scoreBoard = this.add.container(10, 50);
+    scoreText = this.add.text(10, 50, "SCORE: 0", {fontSize: '56px', color: '#fff'});
 
+    //Add the text to the container which will be our scoreboard
     scoreBoard.add(scoreText);
 
+    //Make the scoreboard follow the player
     this.tweens.add({
         targets: scoreBoard,
-        x: skater.x,
         ease: 'Linear',
         duration: 1,
         delay: 1,
@@ -193,10 +194,20 @@ function update() {
     var pushSpeed = 0;
     var ollie = 0;
 
-    //Push
-    if (this.spacebar.isDown && skater.angle > -50 && skater.angle < 50 && skaterTouchingGround) {
+    //Make sure the player isn't doing anything if he's upside down, or crashed
+    let skaterCrashed;
+
+    if (skater.angle > -50 && skater.angle < 5) {
+        skaterCrashed = false;
+    }
+    else {
+        skaterCrashed = true;
+    }
+
+    //Pushing
+    if (Phaser.Input.Keyboard.JustDown(this.spacebar) && !skaterCrashed && skaterTouchingGround) {
         //Increase speed
-        pushSpeed = 10;
+        pushSpeed = 15;
 
         //Move player
         skater.setVelocityX(pushSpeed);
@@ -219,16 +230,21 @@ function update() {
         //Play the ollie animation
         skater.anims.play('ollie');
 
+        //Scoring for ollie
+        score += 1;
     }
 
     //Shuvit
-    if (this.arrowKeys.down.isDown) {
+    if (Phaser.Input.Keyboard.JustDown(this.arrowKeys.down)) {
         //Play the shuvit animation
         skater.anims.play('shuv');
+
+        //Scoring for shuv
+        score += 3;
     }
 
     //Kickflip
-    if (this.WASDkeys.W.isDown && skaterTouchingGround) {
+    if (Phaser.Input.Keyboard.JustDown(this.WASDkeys.W)  && skaterTouchingGround) {
         //Set jump height
         ollie = -8
 
@@ -237,6 +253,9 @@ function update() {
 
         //Play animation
         skater.anims.play('kickflip');
+
+        //Scoring for kickflip
+        score += 10;
     }
 
     //Tilting backwards in the air
@@ -251,5 +270,6 @@ function update() {
     }
 
     //Move the scoreboard
-    scoreText.x = skater.body.position.x
+    scoreText.x = skater.body.position.x - 200;
+    scoreText.setText("SCORE : " + score);
 }   
