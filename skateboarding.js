@@ -178,7 +178,7 @@ function create() {
 
     this.tweens.add({
         targets: scoreBoard,
-        x: scoreBoard.x + skater.x,
+        x: skater.x,
         ease: 'Linear',
         duration: 1,
         delay: 1,
@@ -249,4 +249,7 @@ function update() {
         //Be able to turn forwards so you don't flip
         skater.angle += 3 ;
     }
+
+    //Move the scoreboard
+    scoreText.x = skater.body.position.x
 }   
