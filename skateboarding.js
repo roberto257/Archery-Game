@@ -6,7 +6,7 @@ var physicsConfig = {
             x: 0,
             y: 2.5, // <--This is the only way I could get the skater to roll up the ramp.
         },
-        debug: false //CHANGE THIS TO TRUE TO SEE LINES
+        debug: true //CHANGE THIS TO TRUE TO SEE LINES
     }   
 }
 
@@ -38,6 +38,10 @@ var game = new Phaser.Game(config);
 var skater;
 var ground;
 var sky;
+
+//Score variables
+let score = 0;
+let scoreBoard;
 
 function preload() {
     //Images
@@ -166,6 +170,22 @@ function create() {
         skaterTouchingGround = true;
     });
 
+    //Scoreboard
+    scoreBoard = this.add.container(skater.x, 50);
+    scoreText = this.add.text(skater.x, 50, "SCORE: 0", {fontSize: '56px', color: '#fff'});
+
+    scoreBoard.add(scoreText);
+
+    this.tweens.add({
+        targets: scoreBoard,
+        x: scoreBoard.x + skater.x,
+        ease: 'Linear',
+        duration: 1,
+        delay: 1,
+        yoyo: false,
+        repeat: -1
+    });
+
 }
 
 function update() {
@@ -174,7 +194,7 @@ function update() {
     var ollie = 0;
 
     //Push
-    if (this.spacebar.isDown && skater.angle > -60 && skater.angle < 60 && skaterTouchingGround) {
+    if (this.spacebar.isDown && skater.angle > -50 && skater.angle < 50 && skaterTouchingGround) {
         //Increase speed
         pushSpeed = 10;
 
