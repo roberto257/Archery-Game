@@ -76,7 +76,11 @@ function create() {
 
     //Place the ramp
     var ramp = this.matter.add.sprite(0, 0, 'sheet', 'ramp', {shape: shapes.ramp});
-    ramp.setPosition(550 + ramp.centerOfMass.x, 250  + ramp.centerOfMass.y);
+    ramp.setPosition(550 + ramp.centerOfMass.x, 250 + ramp.centerOfMass.y);
+
+    //Place a bench
+    var bench = this.matter.add.sprite(2000, 200, 'sheet', 'bench', {shapes: shapes.bench});
+    bench.angle = 180;
 
     //Create the skater
     skater = this.matter.add.sprite(0, 0, 'sheet', 'roll/0001', {shape: shapes.s0001});
@@ -86,6 +90,7 @@ function create() {
     var staticCategory = this.matter.world.nextCategory();
     ramp.setCollisionCategory(staticCategory);
     ground.setCollisionCategory(staticCategory);
+    bench.setCollisionCategory(staticCategory);
 
     var skaterCategory = this.matter.world.nextCategory();
     skater.setCollisionCategory(skaterCategory);
@@ -222,7 +227,7 @@ function update() {
         skaterTouchingGround = false;
 
         //Set ollie power
-        ollie = -12;
+        ollie = -15;
 
         //Set skate velocity
         skater.setVelocityY(ollie);
@@ -245,8 +250,11 @@ function update() {
 
     //Kickflip
     if (Phaser.Input.Keyboard.JustDown(this.WASDkeys.W)  && skaterTouchingGround) {
+        //Reset variable since we are jumping
+        skaterTouchingGround = false
+
         //Set jump height
-        ollie = -8
+        ollie = -14
 
         //Move the player
         skater.setVelocityY(ollie);

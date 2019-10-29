@@ -4,8 +4,8 @@
 			"image": "sprites.png",
 			"format": "RGBA8888",
 			"size": {
-				"w": 948,
-				"h": 1281
+				"w": 934,
+				"h": 1292
 			},
 			"scale": 1,
 			"frames": [
@@ -52,90 +52,6 @@
 					}
 				},
 				{
-					"filename": "kickflip/0024",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 160,
-						"h": 190
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 14,
-						"w": 160,
-						"h": 176
-					},
-					"frame": {
-						"x": 603,
-						"y": 144,
-						"w": 160,
-						"h": 176
-					}
-				},
-				{
-					"filename": "ollie/0016",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 160,
-						"h": 190
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 14,
-						"w": 160,
-						"h": 176
-					},
-					"frame": {
-						"x": 765,
-						"y": 144,
-						"w": 160,
-						"h": 176
-					}
-				},
-				{
-					"filename": "kickflip/0023",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 160,
-						"h": 190
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 24,
-						"w": 160,
-						"h": 166
-					},
-					"frame": {
-						"x": 603,
-						"y": 322,
-						"w": 160,
-						"h": 166
-					}
-				},
-				{
-					"filename": "ollie/0015",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 160,
-						"h": 190
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 24,
-						"w": 160,
-						"h": 166
-					},
-					"frame": {
-						"x": 765,
-						"y": 322,
-						"w": 160,
-						"h": 166
-					}
-				},
-				{
 					"filename": "kickflip/0025",
 					"rotated": false,
 					"trimmed": true,
@@ -171,10 +87,115 @@
 						"h": 181
 					},
 					"frame": {
-						"x": 159,
-						"y": 334,
+						"x": 603,
+						"y": 144,
 						"w": 156,
 						"h": 181
+					}
+				},
+				{
+					"filename": "kickflip/0024",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 160,
+						"h": 190
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 14,
+						"w": 160,
+						"h": 176
+					},
+					"frame": {
+						"x": 159,
+						"y": 334,
+						"w": 160,
+						"h": 176
+					}
+				},
+				{
+					"filename": "ollie/0016",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 160,
+						"h": 190
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 14,
+						"w": 160,
+						"h": 176
+					},
+					"frame": {
+						"x": 761,
+						"y": 144,
+						"w": 160,
+						"h": 176
+					}
+				},
+				{
+					"filename": "kickflip/0027",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 160,
+						"h": 190
+					},
+					"spriteSourceSize": {
+						"x": 4,
+						"y": 9,
+						"w": 152,
+						"h": 177
+					},
+					"frame": {
+						"x": 1,
+						"y": 517,
+						"w": 152,
+						"h": 177
+					}
+				},
+				{
+					"filename": "kickflip/0023",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 160,
+						"h": 190
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 24,
+						"w": 160,
+						"h": 166
+					},
+					"frame": {
+						"x": 321,
+						"y": 334,
+						"w": 160,
+						"h": 166
+					}
+				},
+				{
+					"filename": "kickflip/0028",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 160,
+						"h": 190
+					},
+					"spriteSourceSize": {
+						"x": 4,
+						"y": 9,
+						"w": 152,
+						"h": 172
+					},
+					"frame": {
+						"x": 1,
+						"y": 696,
+						"w": 152,
+						"h": 172
 					}
 				},
 				{
@@ -192,8 +213,8 @@
 						"h": 167
 					},
 					"frame": {
-						"x": 317,
-						"y": 334,
+						"x": 1,
+						"y": 870,
 						"w": 156,
 						"h": 167
 					}
@@ -213,10 +234,115 @@
 						"h": 167
 					},
 					"frame": {
-						"x": 475,
-						"y": 490,
+						"x": 1,
+						"y": 1039,
 						"w": 156,
 						"h": 167
+					}
+				},
+				{
+					"filename": "ollie/0015",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 160,
+						"h": 190
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 24,
+						"w": 160,
+						"h": 166
+					},
+					"frame": {
+						"x": 483,
+						"y": 334,
+						"w": 160,
+						"h": 166
+					}
+				},
+				{
+					"filename": "kickflip/0022",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 160,
+						"h": 190
+					},
+					"spriteSourceSize": {
+						"x": 4,
+						"y": 29,
+						"w": 152,
+						"h": 161
+					},
+					"frame": {
+						"x": 645,
+						"y": 327,
+						"w": 152,
+						"h": 161
+					}
+				},
+				{
+					"filename": "push/0006",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 160,
+						"h": 160
+					},
+					"spriteSourceSize": {
+						"x": 24,
+						"y": 4,
+						"w": 132,
+						"h": 156
+					},
+					"frame": {
+						"x": 799,
+						"y": 322,
+						"w": 132,
+						"h": 156
+					}
+				},
+				{
+					"filename": "bench",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 180,
+						"h": 60
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 180,
+						"h": 60
+					},
+					"frame": {
+						"x": 1,
+						"y": 1208,
+						"w": 180,
+						"h": 60
+					}
+				},
+				{
+					"filename": "kickflip/0021",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 160,
+						"h": 190
+					},
+					"spriteSourceSize": {
+						"x": 4,
+						"y": 34,
+						"w": 156,
+						"h": 156
+					},
+					"frame": {
+						"x": 321,
+						"y": 502,
+						"w": 156,
+						"h": 156
 					}
 				},
 				{
@@ -234,8 +360,8 @@
 						"h": 157
 					},
 					"frame": {
-						"x": 317,
-						"y": 503,
+						"x": 479,
+						"y": 502,
 						"w": 156,
 						"h": 157
 					}
@@ -255,10 +381,31 @@
 						"h": 157
 					},
 					"frame": {
-						"x": 1,
-						"y": 517,
+						"x": 637,
+						"y": 502,
 						"w": 156,
 						"h": 157
+					}
+				},
+				{
+					"filename": "ollie/0014",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 160,
+						"h": 190
+					},
+					"spriteSourceSize": {
+						"x": 4,
+						"y": 29,
+						"w": 152,
+						"h": 161
+					},
+					"frame": {
+						"x": 155,
+						"y": 517,
+						"w": 152,
+						"h": 161
 					}
 				},
 				{
@@ -276,8 +423,8 @@
 						"h": 157
 					},
 					"frame": {
-						"x": 159,
-						"y": 517,
+						"x": 155,
+						"y": 680,
 						"w": 156,
 						"h": 157
 					}
@@ -297,73 +444,10 @@
 						"h": 157
 					},
 					"frame": {
-						"x": 633,
-						"y": 490,
+						"x": 313,
+						"y": 660,
 						"w": 156,
 						"h": 157
-					}
-				},
-				{
-					"filename": "ollie/0019",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 160,
-						"h": 190
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 9,
-						"w": 156,
-						"h": 157
-					},
-					"frame": {
-						"x": 791,
-						"y": 490,
-						"w": 156,
-						"h": 157
-					}
-				},
-				{
-					"filename": "ollie/0020",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 160,
-						"h": 190
-					},
-					"spriteSourceSize": {
-						"x": 4,
-						"y": 9,
-						"w": 156,
-						"h": 157
-					},
-					"frame": {
-						"x": 633,
-						"y": 649,
-						"w": 156,
-						"h": 157
-					}
-				},
-				{
-					"filename": "kickflip/0021",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 160,
-						"h": 190
-					},
-					"spriteSourceSize": {
-						"x": 4,
-						"y": 34,
-						"w": 156,
-						"h": 156
-					},
-					"frame": {
-						"x": 475,
-						"y": 659,
-						"w": 156,
-						"h": 156
 					}
 				},
 				{
@@ -381,8 +465,8 @@
 						"h": 156
 					},
 					"frame": {
-						"x": 317,
-						"y": 662,
+						"x": 471,
+						"y": 661,
 						"w": 156,
 						"h": 156
 					}
@@ -402,10 +486,52 @@
 						"h": 156
 					},
 					"frame": {
-						"x": 791,
-						"y": 649,
+						"x": 629,
+						"y": 661,
 						"w": 156,
 						"h": 156
+					}
+				},
+				{
+					"filename": "ollie/0019",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 160,
+						"h": 190
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 9,
+						"w": 156,
+						"h": 157
+					},
+					"frame": {
+						"x": 159,
+						"y": 839,
+						"w": 156,
+						"h": 157
+					}
+				},
+				{
+					"filename": "ollie/0020",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 160,
+						"h": 190
+					},
+					"spriteSourceSize": {
+						"x": 4,
+						"y": 9,
+						"w": 156,
+						"h": 157
+					},
+					"frame": {
+						"x": 159,
+						"y": 998,
+						"w": 156,
+						"h": 157
 					}
 				},
 				{
@@ -423,8 +549,8 @@
 						"h": 156
 					},
 					"frame": {
-						"x": 791,
-						"y": 807,
+						"x": 317,
+						"y": 819,
 						"w": 156,
 						"h": 156
 					}
@@ -444,8 +570,8 @@
 						"h": 156
 					},
 					"frame": {
-						"x": 633,
-						"y": 808,
+						"x": 317,
+						"y": 977,
 						"w": 156,
 						"h": 156
 					}
@@ -466,7 +592,7 @@
 					},
 					"frame": {
 						"x": 475,
-						"y": 817,
+						"y": 819,
 						"w": 156,
 						"h": 156
 					}
@@ -486,8 +612,8 @@
 						"h": 156
 					},
 					"frame": {
-						"x": 791,
-						"y": 965,
+						"x": 475,
+						"y": 977,
 						"w": 156,
 						"h": 156
 					}
@@ -508,7 +634,7 @@
 					},
 					"frame": {
 						"x": 633,
-						"y": 966,
+						"y": 819,
 						"w": 156,
 						"h": 156
 					}
@@ -528,8 +654,8 @@
 						"h": 156
 					},
 					"frame": {
-						"x": 791,
-						"y": 1123,
+						"x": 633,
+						"y": 977,
 						"w": 156,
 						"h": 156
 					}
@@ -549,8 +675,8 @@
 						"h": 156
 					},
 					"frame": {
-						"x": 1,
-						"y": 676,
+						"x": 317,
+						"y": 1135,
 						"w": 156,
 						"h": 156
 					}
@@ -570,8 +696,8 @@
 						"h": 156
 					},
 					"frame": {
-						"x": 159,
-						"y": 676,
+						"x": 475,
+						"y": 1135,
 						"w": 156,
 						"h": 156
 					}
@@ -591,115 +717,10 @@
 						"h": 151
 					},
 					"frame": {
-						"x": 317,
-						"y": 820,
+						"x": 633,
+						"y": 1135,
 						"w": 156,
 						"h": 151
-					}
-				},
-				{
-					"filename": "kickflip/0027",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 160,
-						"h": 190
-					},
-					"spriteSourceSize": {
-						"x": 4,
-						"y": 9,
-						"w": 152,
-						"h": 177
-					},
-					"frame": {
-						"x": 1,
-						"y": 834,
-						"w": 152,
-						"h": 177
-					}
-				},
-				{
-					"filename": "kickflip/0028",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 160,
-						"h": 190
-					},
-					"spriteSourceSize": {
-						"x": 4,
-						"y": 9,
-						"w": 152,
-						"h": 172
-					},
-					"frame": {
-						"x": 155,
-						"y": 834,
-						"w": 152,
-						"h": 172
-					}
-				},
-				{
-					"filename": "kickflip/0022",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 160,
-						"h": 190
-					},
-					"spriteSourceSize": {
-						"x": 4,
-						"y": 29,
-						"w": 152,
-						"h": 161
-					},
-					"frame": {
-						"x": 309,
-						"y": 973,
-						"w": 152,
-						"h": 161
-					}
-				},
-				{
-					"filename": "ollie/0014",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 160,
-						"h": 190
-					},
-					"spriteSourceSize": {
-						"x": 4,
-						"y": 29,
-						"w": 152,
-						"h": 161
-					},
-					"frame": {
-						"x": 155,
-						"y": 1008,
-						"w": 152,
-						"h": 161
-					}
-				},
-				{
-					"filename": "push/0007",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 160,
-						"h": 160
-					},
-					"spriteSourceSize": {
-						"x": 19,
-						"y": 4,
-						"w": 141,
-						"h": 156
-					},
-					"frame": {
-						"x": 1,
-						"y": 1013,
-						"w": 141,
-						"h": 156
 					}
 				},
 				{
@@ -717,14 +738,14 @@
 						"h": 156
 					},
 					"frame": {
-						"x": 463,
-						"y": 975,
+						"x": 787,
+						"y": 661,
 						"w": 137,
 						"h": 156
 					}
 				},
 				{
-					"filename": "push/0006",
+					"filename": "push/0007",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -732,15 +753,15 @@
 						"h": 160
 					},
 					"spriteSourceSize": {
-						"x": 24,
+						"x": 19,
 						"y": 4,
-						"w": 132,
+						"w": 141,
 						"h": 156
 					},
 					"frame": {
-						"x": 602,
-						"y": 1124,
-						"w": 132,
+						"x": 791,
+						"y": 819,
+						"w": 141,
 						"h": 156
 					}
 				}
@@ -750,6 +771,6 @@
 	"meta": {
 		"app": "https://www.codeandweb.com/texturepacker",
 		"version": "3.0",
-		"smartupdate": "$TexturePacker:SmartUpdate:8389ac0900882b2e4ef0e8b725e2755e:b6f506c26119f822e6b92590d6deb65f:1eabdf11f75e3a4fe3147baf7b5be24b$"
+		"smartupdate": "$TexturePacker:SmartUpdate:8c899b7649bd1575f5f4b1b1659ca1e8:c6ddb332b05bdda9eb1067e269db46d2:1eabdf11f75e3a4fe3147baf7b5be24b$"
 	}
 }

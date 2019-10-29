@@ -2173,5 +2173,32 @@
 				]
 			}
 		]
+	},
+	"bench": {
+		"type": "fromPhysicsEditor",
+		"label": "bench",
+		"isStatic": true,
+		"density": 0.10000000149011612,
+		"restitution": 0,
+		"friction": 0.10000000149011612,
+		"frictionAir": 0.01,
+		"frictionStatic": 0.5,
+		"collisionFilter": {
+			"group": 0,
+			"category": 1,
+			"mask": 255
+		},
+		"fixtures": [
+			{
+				"label": "",
+				"isSensor": false,
+				"vertices": [
+					[ { "x":179, "y":20 }, { "x":180, "y":0 }, { "x":0, "y":0 }, { "x":19, "y":20 } ],
+					[ { "x":0, "y":20 }, { "x":19, "y":20 }, { "x":0, "y":0 } ],
+					[ { "x":159, "y":60 }, { "x":159, "y":20 }, { "x":139, "y":20 }, { "x":139, "y":60 } ],
+					[ { "x":39, "y":60 }, { "x":39, "y":20 }, { "x":19, "y":20 }, { "x":19, "y":60 } ]
+				]
+			}
+		]
 	}
 }
