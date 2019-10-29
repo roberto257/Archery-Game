@@ -80,6 +80,8 @@ function create() {
 
     //Place a bench
     var bench = this.matter.add.sprite(2000, 200, 'sheet', 'bench', {shapes: shapes.bench});
+    bench.setScale(2, 1);
+    bench.setPosition(2250 + bench.centerOfMass.x, 50 + bench.centerOfMass.y);
 
     //Create the skater
     skater = this.matter.add.sprite(0, 0, 'sheet', 'roll/0001', {shape: shapes.s0001});
@@ -279,4 +281,5 @@ function update() {
     //Move the scoreboard
     scoreText.x = skater.body.position.x - 200;
     scoreText.setText("SCORE : " + score);
+
 }   
