@@ -80,7 +80,6 @@ function create() {
 
     //Place a bench
     var bench = this.matter.add.sprite(2000, 200, 'sheet', 'bench', {shapes: shapes.bench});
-    bench.angle = 180;
 
     //Create the skater
     skater = this.matter.add.sprite(0, 0, 'sheet', 'roll/0001', {shape: shapes.s0001});
