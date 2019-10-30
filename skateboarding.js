@@ -1,21 +1,30 @@
-//Configurations for the physics engine
-var physicsConfig = {
+//Define our start button for out index page
+var startButton = document.querySelector("#startGame").addEventListener("click", () => {
+    //Call function
+    this.startGame();
+  });
+
+//Define the function that we call when our start button is clicked
+startGame = () => {
+
+    //Configurations for the physics engine
+    var physicsConfig = {
     default: 'matter',
     matter : {
         gravity: {
             x: 0,
-            y: 2.5, // <--This is the only way I could get the skater to roll up the ramp.
+            y: 2.5, // <--This is the only way I could get the skater to roll up the ramp.s
         },
         debug: true //CHANGE THIS TO TRUE TO SEE LINES
     }   
-}
+    }
 
-//Variables for height and width
-var gameHeight = 750;
-var gameWidth = 5000;
-    
-//Game configurations
-var config = {
+    //Variables for height and width
+    var gameHeight = 750;
+    var gameWidth = 5000;
+
+    //Game configurations
+    var config = {
     type: Phaser.AUTO,
     width: 1500, //<-- this is the width of what we will see at one time
     height: gameHeight,
@@ -25,25 +34,25 @@ var config = {
         create: create,
         update: update
     }   
-}
+    }
 
-/* This variable will be used to make sure the skater 
-cannot ollie while he is already in the air */
-let skaterTouchingGround;
+    /* This variable will be used to make sure the skater 
+    cannot ollie while he is already in the air */
+    let skaterTouchingGround;
 
-//Start the game
-var game = new Phaser.Game(config);
+    //Start the game
+    var game = new Phaser.Game(config);
 
-//Declare variables so we can access them in all functions
-var skater;
-var ground;
-var sky;
+    //Declare variables so we can access them in all functions
+    var skater;
+    var ground;
+    var sky;
 
-//Score variables
-let score = 0;
-let scoreBoard;
+    //Score variables
+    let score = 0;
+    let scoreBoard;
 
-function preload() {
+    function preload() {
     //Images
     this.load.image('sky', 'archery_assets/images/sky.png');
 
@@ -51,9 +60,9 @@ function preload() {
     this.load.atlas('sheet', 'skate_assets/sprites.png', 'skate_assets/sprites.json');
     //Load body shapes from PhysicsEditor
     this.load.json('shapes', 'skate_assets/spritesPE.json');
-}
+    }
 
-function create() {
+    function create() {
 
     //Background
     sky = this.add.image(2500, 325,'sky')
@@ -62,7 +71,7 @@ function create() {
 
     //Get the hitboxes
     var shapes = this.cache.json.get('shapes');
-    
+
     //Set world bounds    
     this.matter.world.setBounds(0, 0, gameWidth, gameHeight);
 
@@ -196,9 +205,9 @@ function create() {
         repeat: -1
     });
 
-}
+    }
 
-function update() {
+    function update() {
     //Set variable for player movement
     var pushSpeed = 0;
     var ollie = 0;
@@ -288,5 +297,5 @@ function update() {
     //Move the scoreboard
     scoreText.x = skater.body.position.x - 200;
     scoreText.setText("SCORE : " + score);
+    }
 }
-
