@@ -10,6 +10,8 @@ var startButton = document.querySelector("#startSkate").addEventListener("click"
         document.getElementById('startSkate').remove();
         //Get the other button and remove it too
         document.getElementById('startArch').remove();
+        //Remove the TSA logo
+        document.getElementById('logo').remove();
         //Pass the delay
     }, removeDelay);
 });
@@ -48,7 +50,7 @@ startSkateGame = () => {
 
     /* This variable will be used to make sure the skater 
     cannot ollie while he is already in the air */
-    let skaterTouchingGround;
+    var skaterTouchingGround;
 
     //Start the game
     var game = new Phaser.Game(config);
@@ -98,9 +100,9 @@ startSkateGame = () => {
     ramp.setPosition(550 + ramp.centerOfMass.x, 250 + ramp.centerOfMass.y);
 
     //Place a bench
-    var bench = this.matter.add.sprite(2000, 200, 'sheet', 'bench', {shapes: shapes.bench});
+    bench = this.matter.add.sprite(2000, 200, 'sheet', 'bench', {shapes: shapes.bench});
     bench.setScale(2, 1);
-    bench.setPosition(2250 + bench.centerOfMass.x, 50 + bench.centerOfMass.y);
+    bench.setPosition(2250 + bench.centerOfMass.x, 200 + bench.centerOfMass.y);
 
     //Create the skater
     skater = this.matter.add.sprite(0, 0, 'sheet', 'roll/0001', {shape: shapes.s0001});
@@ -214,7 +216,7 @@ startSkateGame = () => {
         yoyo: false,
         repeat: -1
     });
-
+    
     }
 
     function update() {
@@ -225,12 +227,16 @@ startSkateGame = () => {
     //Make sure the player isn't doing anything if he's upside down, or crashed
     let skaterCrashed;
 
+    //Variable to check the angle of the skater
+    let angleOkay = skater.angle > -80 && skater.angle < 80;
+
     //Determine if the player is crashed or not
-    if (skater.angle > -50 && skater.angle < 50) {
+    if (angleOkay) {
         skaterCrashed = false;
     }
     else {
         skaterCrashed = true;
+        window.alert("You crashed!");
     }
 
     //Starting parameter, as we don't want to do anything if we are crashed

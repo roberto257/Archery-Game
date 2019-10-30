@@ -10,6 +10,8 @@ var startButton = document.querySelector("#startArch").addEventListener("click",
         document.getElementById('startArch').remove();
         //Get the other button and remove it too
         document.getElementById('startSkate').remove();
+        //Remove the TSA logo
+        document.getElementById('logo').remove();
         //Pass the delay next
     }, removeDelay);
 });
