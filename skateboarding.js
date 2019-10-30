@@ -1,11 +1,21 @@
 //Define our start button for out index page
-var startButton = document.querySelector("#startGame").addEventListener("click", () => {
-    //Call function
-    this.startGame();
-  });
+var startButton = document.querySelector("#startSkate").addEventListener("click", () => {
+    //Delay in ms to remove our button
+    let removeDelay = 1;
+    //Call function to start the game
+    this.startSkateGame();
+    //Call the setTimeout method and define a function
+    setTimeout(function () {
+        //Get our button then remove it
+        document.getElementById('startSkate').remove();
+        //Get the other button and remove it too
+        document.getElementById('startArch').remove();
+        //Pass the delay
+    }, removeDelay);
+});
 
 //Define the function that we call when our start button is clicked
-startGame = () => {
+startSkateGame = () => {
 
     //Configurations for the physics engine
     var physicsConfig = {
