@@ -21,15 +21,19 @@ startArchGame = () => {
     var physicsConfig = {
         default: 'arcade',
         arcade: {
-            debug: false //CHANGE THIS TO TRUE TO SEE LINES
+            debug: true //CHANGE THIS TO TRUE TO SEE LINES
         }
     }
+
+    //Variables for the game's height and width
+    var gameHeight = 600;
+    var gameWidth = 1200
 
     //Configurations for the game itself
     var config = {
         type: Phaser.AUTO,
-        width: 800,
-        height: 600,
+        width: gameWidth,
+        height: gameHeight,
         physics: physicsConfig,
         scene: {
             preload: preload,
@@ -65,11 +69,21 @@ startArchGame = () => {
         //Audio
         this.load.audio('arrow_shot', 'archery_assets/sounds/arrow_shooting.mp3');
     }
+
+    //Define the target here as we will be using it quite a bit
+    let target;
+
     function create ()
     {   
-        //Load all the images that won't move
-        this.add.image(400, 300, 'sky');
-        this.add.image(210, 200, 'ground');
+        //Define the background as a variable
+        sky = this.add.image(600, 300, 'sky');
+        //Change background size to fit
+        sky.setDisplaySize(gameWidth, gameHeight);
+        
+        //Add the ground
+        ground = this.add.image(600, 200, 'ground');
+        //Scale the ground
+        ground.setScale(2, 1);
 
         //Create the archer/player
         this.player = this.physics.add.sprite(100, 410, 'archer');
@@ -96,10 +110,10 @@ startArchGame = () => {
         this.rings.anims.play('rings_anim', true);
 
         //Create the target
-        this.target = this.physics.add.sprite(530, 365, 'target');
-        this.target.setSize(115, 95).setOffset(70, 130); //TARGET HITBOX
-        this.target.enableBody = true;
-        this.target.setImmovable();
+        target = this.physics.add.sprite(530, 365, 'target');
+        target.setSize(115, 95).setOffset(70, 130); //TARGET HITBOX
+        target.enableBody = true;
+        target.setImmovable();
 
         //Create an array for arrows for later
         this.arrows = [];
@@ -113,7 +127,7 @@ startArchGame = () => {
         this.arrowSound = this.sound.add('arrow_shot');
 
         //Make the arrows collide with the target
-        this.physics.add.collider(this.arrows, this.target)
+        this.physics.add.collider(this.arrows, target)
 
         //Add the scoreboard in
         scoreBoard = this.add.text(450, 40, "SCORE: 0", {fontSize: '26px', fill: '#fff'});
@@ -140,6 +154,7 @@ startArchGame = () => {
 
             //Arrow shooting
             let arrow = this.physics.add.sprite(this.player.x, (this.player.y + 20), 'arrow');
+
             //Make sure the arrow has a hitbox
             arrow.enableBody = true;
             //Let the arrow move
@@ -160,7 +175,7 @@ startArchGame = () => {
             angleModifier = (Math.random() + .1) * 2;
         }
 
-        else if(this.target.body.touching.left) {
+        else if(target.body.touching.left) {
 
             //Variable for loop
             let i = 0;
@@ -176,13 +191,24 @@ startArchGame = () => {
                 newArrows.setVelocityY(0);
 
                 //Add 30 to the new medal's x position
-                firstMedalX = firstMedalX + 40;
+                firstMedalX += 40;
 
                 //Increment for every arrow shot
                 i++;
 
                 //Reset the player angle for difficulty
                 this.player.angle = 0;
+
+                //Move the target
+                var x = target.x;
+                target.x += 10;
+                var x2 = target.x;
+                var arrowMove = x2 - x;
+                newArrows.x = newArrows.x + arrowMove;
+
+                console.log("Target X = " + target.x);
+                console.log("Arrows X = " + newArrows.x);
+
             }
 
             //Call the function to determine medal and pass the variable
