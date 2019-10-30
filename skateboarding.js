@@ -12,7 +12,7 @@ var physicsConfig = {
 
 //Variables for height and width
 var gameHeight = 750;
-var gameWidth = 3000;
+var gameWidth = 5000;
     
 //Game configurations
 var config = {
@@ -56,7 +56,7 @@ function preload() {
 function create() {
 
     //Background
-    sky = this.add.image(1500, 325,'sky')
+    sky = this.add.image(2500, 325,'sky')
     //Scale the image
     sky.setDisplaySize(gameWidth, gameHeight);
 
@@ -69,8 +69,8 @@ function create() {
     //Place ground object
     ground = this.matter.add.sprite(0, 0, 'sheet', 'ground', {shape: shapes.ground});
     //Ground is 600x600, so double the x pixels and we get screen width
-    ground.setScale(5, 1);
-    ground.setPosition(1500, 650);
+    ground.setScale(8.5, 1);
+    ground.setPosition(2500, 650);
     //Let the ground detect collisions 
     ground.isSensor(true);
 
@@ -93,6 +93,7 @@ function create() {
     ground.setCollisionCategory(staticCategory);
     bench.setCollisionCategory(staticCategory);
 
+    //Skater needs to be in a different category
     var skaterCategory = this.matter.world.nextCategory();
     skater.setCollisionCategory(skaterCategory);
 
@@ -168,16 +169,18 @@ function create() {
     this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
     //Camera to follow the skater
-    this.cameras.main.setBounds(0, 0, 3000, gameHeight);
+    this.cameras.main.setBounds(0, 0, gameWidth, gameHeight);
     this.cameras.main.startFollow(skater);
 
     //Detect the player's collision with the ground
-    this.matter.world.on('collisionactive', (skater, ground) => {
+    this.matter.world.on('collisionstart', function (onGround, skater, ground) {
+        //If the player is touching the ground, set this value to true
         skaterTouchingGround = true;
     });
 
-    //Scoreboard
+    //Create the scoreboard as a container
     scoreBoard = this.add.container(10, 50);
+    //Add text to this container, displaying our score
     scoreText = this.add.text(10, 50, "SCORE: 0", {fontSize: '56px', color: '#fff'});
 
     //Add the text to the container which will be our scoreboard
@@ -203,83 +206,87 @@ function update() {
     //Make sure the player isn't doing anything if he's upside down, or crashed
     let skaterCrashed;
 
-    if (skater.angle > -50 && skater.angle < 5) {
+    //Determine if the player is crashed or not
+    if (skater.angle > -50 && skater.angle < 50) {
         skaterCrashed = false;
     }
     else {
         skaterCrashed = true;
     }
 
-    //Pushing
-    if (Phaser.Input.Keyboard.JustDown(this.spacebar) && !skaterCrashed && skaterTouchingGround) {
-        //Increase speed
-        pushSpeed = 15;
+    //Starting parameter, as we don't want to do anything if we are crashed
+    if (!skaterCrashed) {
+        //Pushing
+        if (Phaser.Input.Keyboard.JustDown(this.spacebar) && skaterTouchingGround) {
+            //Increase speed
+            pushSpeed = 15;
 
-        //Move player
-        skater.setVelocityX(pushSpeed);
+            //Move player
+            skater.setVelocityX(pushSpeed);
 
-        //Play push animation
-        skater.anims.play('push');
-    }
+            //Play push animation
+            skater.anims.play('push');
+        }
 
-    //Ollie
-    if (Phaser.Input.Keyboard.JustDown(this.arrowKeys.up) && skaterTouchingGround) {
-        //Set this to false, because we are about to jump
-        skaterTouchingGround = false;
+        //Ollie
+        if (Phaser.Input.Keyboard.JustDown(this.arrowKeys.up) && skaterTouchingGround) {
+            //Set this to false, because we are about to jump
+            skaterTouchingGround = false;
 
-        //Set ollie power
-        ollie = -15;
+            //Set ollie power
+            ollie = -15;
 
-        //Set skate velocity
-        skater.setVelocityY(ollie);
+            //Set skate velocity
+            skater.setVelocityY(ollie);
 
-        //Play the ollie animation
-        skater.anims.play('ollie');
+            //Play the ollie animation
+            skater.anims.play('ollie');
 
-        //Scoring for ollie
-        score += 1;
-    }
+            //Scoring for ollie
+            score += 1;
+        }
 
-    //Shuvit
-    if (Phaser.Input.Keyboard.JustDown(this.arrowKeys.down)) {
-        //Play the shuvit animation
-        skater.anims.play('shuv');
+        //Shuvit
+        if (Phaser.Input.Keyboard.JustDown(this.arrowKeys.down)) {
+            //Play the shuvit animation
+            skater.anims.play('shuv');
 
-        //Scoring for shuv
-        score += 3;
-    }
+            //Scoring for shuv
+            score += 3;
+        }
 
-    //Kickflip
-    if (Phaser.Input.Keyboard.JustDown(this.WASDkeys.W)  && skaterTouchingGround) {
-        //Reset variable since we are jumping
-        skaterTouchingGround = false
+        //Kickflip
+        if (Phaser.Input.Keyboard.JustDown(this.WASDkeys.W)  && skaterTouchingGround) {
+            //Reset variable since we are jumping
+            skaterTouchingGround = false
 
-        //Set jump height
-        ollie = -14
+            //Set jump height
+            ollie = -14
 
-        //Move the player
-        skater.setVelocityY(ollie);
+            //Move the player
+            skater.setVelocityY(ollie);
 
-        //Play animation
-        skater.anims.play('kickflip');
+            //Play animation
+            skater.anims.play('kickflip');
 
-        //Scoring for kickflip
-        score += 10;
-    }
+            //Scoring for kickflip
+            score += 10;
+        }
 
-    //Tilting backwards in the air
-    if (this.arrowKeys.left.isDown && !skaterTouchingGround) {
-        //Be able to turn backwards so you don't flip
-        skater.angle -= 3 ;
-    }
-    //Tilting forwards in the air
-    if (this.arrowKeys.right.isDown && !skaterTouchingGround) {
-        //Be able to turn forwards so you don't flip
-        skater.angle += 3 ;
+        //Tilting backwards in the air
+        if (this.arrowKeys.left.isDown && !skaterTouchingGround) {
+            //Be able to turn backwards so you don't flip
+            skater.angle -= 3 ;
+        }
+        //Tilting forwards in the air
+        if (this.arrowKeys.right.isDown && !skaterTouchingGround) {
+            //Be able to turn forwards so you don't flip
+            skater.angle += 3 ;
+        }
     }
 
     //Move the scoreboard
     scoreText.x = skater.body.position.x - 200;
     scoreText.setText("SCORE : " + score);
+}
 
-}   
