@@ -22,7 +22,7 @@ startSoccerGame = () => {
         matter: {
             gravity: {
                 x: 0,
-                y: 1 //We want gravity turned off for now
+                y: 0 //We want gravity turned off for now
             },
             debug: false //CHANGE THIS TO TRUE TO SEE LINES
         }
@@ -50,11 +50,14 @@ startSoccerGame = () => {
     var ground;
     var ball;
     
-    var leftpost;
-    var rightpost
+    //Pieces of the goal
+    var leftPost;
+    var rightPost
     var crossbar;
     var net;
 
+    //This is the meter above the goal that will decide the shot's direction (left to right)
+    var topMeter;
 
     //Start game
     var game = new Phaser.Game(config);
@@ -64,7 +67,7 @@ startSoccerGame = () => {
         this.load.image('sky', 'soccer_assets/images/sky.png');
         this.load.image('grass', 'soccer_assets/images/grass.png');
         this.load.image('net', 'soccer_assets/images/goalnet.png')
-
+        this.load.image('topMeter', 'soccer_assets/images/topmeter.png');
 
         //Load sprites from TexturePacker
         this.load.atlas('sheet', 'soccer_assets/soccer.png', 'soccer_assets/soccer.json');
@@ -89,10 +92,10 @@ startSoccerGame = () => {
 
         //Add our goal, which we will have to piece together
         net = this.add.image(600, 378, 'net');
-        leftpost = this.matter.add.sprite(300, 380, 'sheet', 'leftpost', {shape: shapes.leftpost});
-        rightpost = this.matter.add.sprite(900, 380, 'sheet', 'rightpost', {shape: shapes.rightpost});
+        leftPost = this.matter.add.sprite(300, 380, 'sheet', 'leftpost', {shape: shapes.leftpost});
+        rightPost = this.matter.add.sprite(900, 380, 'sheet', 'rightpost', {shape: shapes.rightpost});
         crossbar = this.matter.add.sprite(600, 265, 'sheet', 'crossbar', {shape: shapes.crossbar});
-
+        
         //Place the ball`
         ball = this.matter.add.sprite(597, 535, 'sheet', 'ball', {shape: shapes.ball});
         ball.setBounce(0.9, 0.9);
@@ -100,9 +103,21 @@ startSoccerGame = () => {
         //Add our player
         player = this.matter.add.sprite(360, 600, 'sheet', 'player', {shape: shapes.player});
 
+        //This will be our meter to aim the shot left or right
+        topMeter = this.matter.add.sprite(600, 200, 'sheet', '0001');
+        //Generate frames for the bars animation
+        var barFrameNames = this.anims.generateFrameNames(
+            'sheet', {start: 1, end: 15, zeroPad: 4}
+        );
+        //Create an animation for it
+        this.anims.create({
+            key: 'bar', frames: barFrameNames, frameRate: 16, repeat: -1, yoyo: true
+        });
+        //Call the animation
+        topMeter.anims.play('bar');
+
         //Get input for the spacebar
         this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-
         //Input for arrowkeys
         this.arrowKeys = this.input.keyboard.addKeys({
             up: 'up',
@@ -113,15 +128,12 @@ startSoccerGame = () => {
     }
 
     function update() {
-        var move = -20;
+
+        //If spacebar is pressed
         if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
-            ball.setVelocityY(move);
+            //Then pause the animation
+            topMeter.anims.pauseAll();
         }
-        if (Phaser.Input.Keyboard.JustDown(this.arrowKeys.left)) {
-            ball.setVelocityX(move);
-        }
-        if (Phaser.Input.Keyboard.JustDown(this.arrowKeys.right)) {
-            ball.setVelocityX(-move);
-        }
+
     }
 } 
