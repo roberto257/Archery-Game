@@ -131,9 +131,23 @@ startSoccerGame = () => {
 
         //If spacebar is pressed
         if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
-            //Then pause the animation
-            topMeter.anims.pauseAll();
-        }
 
+            //How to get current frame number 
+            console.log(topMeter.anims.currentFrame.index);
+
+            //If we hit dead center (animation frame 8)
+            if (topMeter.anims.currentFrame.index == 8) {
+                //Do something, because we hit dead center
+                window.alert('Money!');
+            }
+            else {
+                //This means we hit dead center
+                window.alert('Almost there!');
+            }
+
+            //Then pause the animation
+            topMeter.anims.pause('bar');
+
+        }
     }
 } 
