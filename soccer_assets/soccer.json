@@ -1,0 +1,188 @@
+{
+	"textures": [
+		{
+			"image": "soccer.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 2004,
+				"h": 602
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "grass",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 1200,
+						"h": 218
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 1200,
+						"h": 218
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 1200,
+						"h": 218
+					}
+				},
+				{
+					"filename": "sky",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 800,
+						"h": 600
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 800,
+						"h": 600
+					},
+					"frame": {
+						"x": 1203,
+						"y": 1,
+						"w": 800,
+						"h": 600
+					}
+				},
+				{
+					"filename": "goalnet",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 572,
+						"h": 212
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 572,
+						"h": 212
+					},
+					"frame": {
+						"x": 1,
+						"y": 221,
+						"w": 572,
+						"h": 212
+					}
+				},
+				{
+					"filename": "crossbar",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 600,
+						"h": 13
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 600,
+						"h": 13
+					},
+					"frame": {
+						"x": 1,
+						"y": 435,
+						"w": 600,
+						"h": 13
+					}
+				},
+				{
+					"filename": "player",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 108,
+						"h": 169
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 108,
+						"h": 169
+					},
+					"frame": {
+						"x": 575,
+						"y": 221,
+						"w": 108,
+						"h": 169
+					}
+				},
+				{
+					"filename": "leftpost",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 14,
+						"h": 224
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 14,
+						"h": 224
+					},
+					"frame": {
+						"x": 685,
+						"y": 221,
+						"w": 14,
+						"h": 224
+					}
+				},
+				{
+					"filename": "rightpost",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 14,
+						"h": 224
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 14,
+						"h": 224
+					},
+					"frame": {
+						"x": 685,
+						"y": 221,
+						"w": 14,
+						"h": 224
+					}
+				},
+				{
+					"filename": "ball",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 42,
+						"h": 42
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 42,
+						"h": 42
+					},
+					"frame": {
+						"x": 603,
+						"y": 447,
+						"w": 42,
+						"h": 42
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:a561b99a08489351f863116921ea012f:a02c18d850568f585bc2b0ef5f7bbfb3:184f7f3acb1dc5c7bf0cf25aa140169e$"
+	}
+}

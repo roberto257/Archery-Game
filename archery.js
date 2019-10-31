@@ -6,11 +6,10 @@ var startButton = document.querySelector("#startArch").addEventListener("click",
     this.startArchGame();
     //Call the setTimeout method and then define a function
     setTimeout(function () {
-        //Get out button then remove it
+        //Get elements and remove them to clear the page
         document.getElementById('startArch').remove();
-        //Get the other button and remove it too
         document.getElementById('startSkate').remove();
-        //Remove the TSA logo
+        document.getElementById('startSoccer').remove();
         document.getElementById('logo').remove();
         //Pass the delay next
     }, removeDelay);

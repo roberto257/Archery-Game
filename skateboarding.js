@@ -6,11 +6,10 @@ var startButton = document.querySelector("#startSkate").addEventListener("click"
     this.startSkateGame();
     //Call the setTimeout method and define a function
     setTimeout(function () {
-        //Get our button then remove it
-        document.getElementById('startSkate').remove();
-        //Get the other button and remove it too
+        //Get elements and remove them to clear the page
         document.getElementById('startArch').remove();
-        //Remove the TSA logo
+        document.getElementById('startSkate').remove();
+        document.getElementById('startSoccer').remove();
         document.getElementById('logo').remove();
         //Pass the delay
     }, removeDelay);
@@ -28,7 +27,7 @@ startSkateGame = () => {
             y: 2.5, // <--This is the only way I could get the skater to roll up the ramp.s
         },
         debug: true //CHANGE THIS TO TRUE TO SEE LINES
-    }   
+        }   
     }
 
     //Variables for height and width
@@ -216,7 +215,7 @@ startSkateGame = () => {
         yoyo: false,
         repeat: -1
     });
-    
+
     }
 
     function update() {
@@ -228,7 +227,7 @@ startSkateGame = () => {
     let skaterCrashed;
 
     //Variable to check the angle of the skater
-    let angleOkay = skater.angle > -80 && skater.angle < 80;
+    let angleOkay = skater.angle > -89 && skater.angle < 89;
 
     //Determine if the player is crashed or not
     if (angleOkay) {
