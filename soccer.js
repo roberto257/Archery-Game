@@ -111,7 +111,7 @@ startSoccerGame = () => {
         );
         //Create an animation for it
         this.anims.create({
-            key: 'bar', frames: barFrameNames, frameRate: 16, repeat: -1, yoyo: true
+            key: 'bar', frames: barFrameNames, frameRate: 26, repeat: -1, yoyo: true
         });
         //Call the animation
         topMeter.anims.play('bar');
@@ -129,25 +129,27 @@ startSoccerGame = () => {
 
     function update() {
 
+        //Declare variable for the power of the kick
+        var kickPower = 0;
+
         //If spacebar is pressed
         if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
 
-            //How to get current frame number 
-            console.log(topMeter.anims.currentFrame.index);
-
-            //If we hit dead center (animation frame 8)
+            //If we hit dead center (animation frame 7)
             if (topMeter.anims.currentFrame.index == 8) {
-                //Do something, because we hit dead center
-                window.alert('Money!');
+                //Set kickpower
+                kickPower = -20;
+                console.log(topMeter.anims.currentFrame.index);
+
             }
             else {
-                //This means we hit dead center
-                window.alert('Almost there!');
+                kickPower = -5;
+                console.log(topMeter.anims.currentFrame.index);
+
             }
-
-            //Then pause the animation
-            topMeter.anims.pause('bar');
-
+            ball.setVelocityY(kickPower);
+            //Then pause the animation AT THE CURRENT FRAME
+            topMeter.anims.pause(topMeter.anims.currentFrame);
         }
     }
 } 

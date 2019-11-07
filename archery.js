@@ -200,17 +200,10 @@ startArchGame = () => {
                 //Reset the player angle for difficulty
                 this.player.angle = 0;
 
-                //Move the target
-                var x = target.x;
-                target.x += 10;
-                var x2 = target.x;
-                var arrowMove = x2 - x;
-                newArrows.x = newArrows.x + arrowMove;
-
-                console.log("Target X = " + target.x);
-                console.log("Arrows X = " + newArrows.x);
-
+                //Get new arrow's x value
+                newArrows.x += 10;
             }
+            target.x += 10;
 
             //Call the function to determine medal and pass the variable
             if(this.arrows.length <= 5) {
