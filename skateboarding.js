@@ -50,6 +50,7 @@ startSkateGame = () => {
     /* This variable will be used to make sure the skater 
     cannot ollie while he is already in the air */
     var skaterTouchingGround;
+    var grind;
 
     //Start the game
     var game = new Phaser.Game(config);
@@ -58,6 +59,7 @@ startSkateGame = () => {
     var skater;
     var ground;
     var sky;
+    var bench;
 
     //Score variables
     let score = 0;
@@ -102,6 +104,8 @@ startSkateGame = () => {
     bench = this.matter.add.sprite(2000, 200, 'sheet', 'bench', {shapes: shapes.bench});
     bench.setScale(2, 1);
     bench.setPosition(2250 + bench.centerOfMass.x, 200 + bench.centerOfMass.y);
+    //Needed this again so that bench can detect collisions
+    bench.isSensor(true);
 
     //Create the skater
     skater = this.matter.add.sprite(0, 0, 'sheet', 'roll/0001', {shape: shapes.s0001});
@@ -164,6 +168,15 @@ startSkateGame = () => {
         key: 'kickflip', frames: kfFrameNames, frameRate: 24, repeat: 0
     });
 
+    //Nosegrind  animation
+    var ngFrameNames = this.anims.generateFrameNames(
+        'sheet', {start: 34, end: 37, zeroPad: 4,
+        prefix: 'nosegrind/'}
+    );
+    this.anims.create({
+        key: 'nosegrind', frames: ngFrameNames, frameRate: 24, repeat: 0
+    });
+
     //This keeps the rolling animation going once the push animation is done
     skater.on('animationcomplete', () => {
         skater.anims.play('roll');
@@ -198,6 +211,11 @@ startSkateGame = () => {
         skaterTouchingGround = true;
     });
 
+    //Detect collision when we are on the bench, so we can play the grind animation
+    this.matter.world.on('collisionstart', function (grindNow, skater, bench) {
+        grind = true;
+    });
+
     //Create the scoreboard as a container
     scoreBoard = this.add.container(10, 50);
     //Add text to this container, displaying our score
@@ -219,6 +237,7 @@ startSkateGame = () => {
     }
 
     function update() {
+    console.log(grind);
     //Set variable for player movement
     var pushSpeed = 0;
     var ollie = 0;
