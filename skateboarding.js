@@ -26,7 +26,7 @@ startSkateGame = () => {
             x: 0,
             y: 2.5, // <--This is the only way I could get the skater to roll up the ramp.s
         },
-        debug: true //CHANGE THIS TO TRUE TO SEE LINES
+        debug: false  //CHANGE THIS TO TRUE TO SEE LINES
         }   
     }
 
@@ -40,6 +40,16 @@ startSkateGame = () => {
     width: 1500, //<-- this is the width of what we will see at one time
     height: gameHeight,
     physics: physicsConfig,
+    //We will use a plugin to help us detect collisions
+    plugins: {
+        scene: [
+            {  
+                plugin: PhaserMatterCollisionPlugin,
+                key: "matterCollision",
+                mapping: "matterCollision"
+            }
+        ]
+    },
     scene: {
         preload: preload,
         create: create,
@@ -49,7 +59,7 @@ startSkateGame = () => {
 
     /* This variable will be used to make sure the skater 
     cannot ollie while he is already in the air */
-    var skaterTouchingGround;
+    var canOllie;
     var grind;
 
     //Start the game
@@ -205,15 +215,25 @@ startSkateGame = () => {
     this.cameras.main.setBounds(0, 0, gameWidth, gameHeight);
     this.cameras.main.startFollow(skater);
 
-    //Detect the player's collision with the ground
-    this.matter.world.on('collisionstart', function (onGround, skater, ground) {
-        //If the player is touching the ground, set this value to true
-        skaterTouchingGround = true;
+    //Detect the player's collision with the ground and the ramp
+    this.matterCollision.addOnCollideStart({
+        objectA: skater,
+        objectB: [ground, ramp],
+        callback: () => {
+            canOllie = true;
+            grind = false;
+        }
     });
 
+    //TODO - BUG: Need to only detect collisions when we are on top of the rail.
     //Detect collision when we are on the bench, so we can play the grind animation
-    this.matter.world.on('collisionstart', function (grindNow, skater, bench) {
-        grind = true;
+    this.matterCollision.addOnCollideStart({
+        objectA: skater,
+        objectB: bench,
+        callback: () => {
+            canOllie = false;
+            grind = true;
+        }
     });
 
     //Create the scoreboard as a container
@@ -237,7 +257,6 @@ startSkateGame = () => {
     }
 
     function update() {
-    console.log(grind);
     //Set variable for player movement
     var pushSpeed = 0;
     var ollie = 0;
@@ -252,7 +271,9 @@ startSkateGame = () => {
     if (angleOkay) {
         skaterCrashed = false;
     }
-    else {
+
+    //canOllie is used as a parameter because if the skater is sideways in the air, he is not crashed yet
+    else if ((!(angleOkay || canOllie)) && canOllie) {
         skaterCrashed = true;
         window.alert("You crashed!");
     }
@@ -260,9 +281,9 @@ startSkateGame = () => {
     //Starting parameter, as we don't want to do anything if we are crashed
     if (!skaterCrashed) {
         //Pushing
-        if (Phaser.Input.Keyboard.JustDown(this.spacebar) && skaterTouchingGround) {
+        if (Phaser.Input.Keyboard.JustDown(this.spacebar) && canOllie) {
             //Increase speed
-            pushSpeed = 15;
+            pushSpeed = 18;
 
             //Move player
             skater.setVelocityX(pushSpeed);
@@ -272,9 +293,11 @@ startSkateGame = () => {
         }
 
         //Ollie
-        if (Phaser.Input.Keyboard.JustDown(this.arrowKeys.up) && skaterTouchingGround) {
+        if (Phaser.Input.Keyboard.JustDown(this.arrowKeys.up) && canOllie) {
             //Set this to false, because we are about to jump
-            skaterTouchingGround = false;
+            canOllie = false;
+
+            grind = false;
 
             //Set ollie power
             ollie = -15;
@@ -299,12 +322,12 @@ startSkateGame = () => {
         }
 
         //Kickflip
-        if (Phaser.Input.Keyboard.JustDown(this.WASDkeys.W)  && skaterTouchingGround) {
+        if (Phaser.Input.Keyboard.JustDown(this.WASDkeys.W)  && canOllie) {
             //Reset variable since we are jumping
-            skaterTouchingGround = false
+            canOllie = false;
 
             //Set jump height
-            ollie = -14
+            ollie = -14;
 
             //Move the player
             skater.setVelocityY(ollie);
@@ -316,13 +339,27 @@ startSkateGame = () => {
             score += 10;
         }
 
+        //Grind animation
+        if (grind) {
+            //Give a little speed boost
+            skater.setVelocityX(15);
+            //Set this to true so we can ollie out
+            canOllie = true;
+            //Play the animation
+            skater.anims.play('nosegrind');
+
+            //Increment the score while we are grinding
+            score += 0.5;
+            //Score will be rounded as it is displayed, because we don't want decimals
+        }
+
         //Tilting backwards in the air
-        if (this.arrowKeys.left.isDown && !skaterTouchingGround) {
+        if (this.arrowKeys.left.isDown && !canOllie) {
             //Be able to turn backwards so you don't flip
             skater.angle -= 3 ;
         }
         //Tilting forwards in the air
-        if (this.arrowKeys.right.isDown && !skaterTouchingGround) {
+        if (this.arrowKeys.right.isDown && !canOllie) {
             //Be able to turn forwards so you don't flip
             skater.angle += 3 ;
         }
@@ -330,6 +367,8 @@ startSkateGame = () => {
 
     //Move the scoreboard
     scoreText.x = skater.body.position.x - 200;
-    scoreText.setText("SCORE : " + score);
+    //Round the score when displayed
+    scoreText.setText("SCORE : " + (Math.round(score)));
     }
 }
+    

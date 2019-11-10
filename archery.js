@@ -22,7 +22,7 @@ startArchGame = () => {
     var physicsConfig = {
         default: 'arcade',
         arcade: {
-            debug: true //CHANGE THIS TO TRUE TO SEE LINES
+            debug: false //CHANGE THIS TO TRUE TO SEE LINES
         }
     }
 
@@ -131,7 +131,7 @@ startArchGame = () => {
         this.physics.add.collider(this.arrows, target)
 
         //Add the scoreboard in
-        scoreBoard = this.add.text(450, 40, "SCORE: 0", {fontSize: '26px', fill: '#fff'});
+        scoreBoard = this.add.text(550, 40, "SCORE: 0", {fontSize: '64px', fill: '#fff'});
     }
 
     function update ()
