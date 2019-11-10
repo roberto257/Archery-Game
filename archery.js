@@ -24,11 +24,11 @@ startArchGame = () => {
         arcade: {
             debug: false //CHANGE THIS TO TRUE TO SEE LINES
         }
-    }
+    };
 
     //Variables for the game's height and width
     var gameHeight = 600;
-    var gameWidth = 1200
+    var gameWidth = 1200;
 
     //Configurations for the game itself
     var config = {
@@ -105,7 +105,7 @@ startArchGame = () => {
             frames: this.anims.generateFrameNumbers('rings', {start : 0, end : 69}),
             frameRate: 10,
             repeat: 0
-        })
+        });
         //Play the animation on start
         this.rings = this.physics.add.sprite(300, 40, 'rings');
         this.rings.anims.play('rings_anim', true);
@@ -128,7 +128,7 @@ startArchGame = () => {
         this.arrowSound = this.sound.add('arrow_shot');
 
         //Make the arrows collide with the target
-        this.physics.add.collider(this.arrows, target)
+        this.physics.add.collider(this.arrows, target);
 
         //Add the scoreboard in
         scoreBoard = this.add.text(550, 40, "SCORE: 0", {fontSize: '64px', fill: '#fff'});
@@ -200,10 +200,15 @@ startArchGame = () => {
                 //Reset the player angle for difficulty
                 this.player.angle = 0;
 
-                //Get new arrow's x value
+                //Move arrows
+                if (this.arrows.length <= 5) {
                 newArrows.x += 10;
+                }
             }
+            //Only move the target for 5 arrows
+            if (this.arrows.length <= 5) {
             target.x += 10;
+            }
 
             //Call the function to determine medal and pass the variable
             if(this.arrows.length <= 5) {
@@ -234,6 +239,6 @@ startArchGame = () => {
             }
             //Set the scoreboard to the new score
             scoreBoard.setText('SCORE: ' + score);
-        }
+        };
     }
-}
+};

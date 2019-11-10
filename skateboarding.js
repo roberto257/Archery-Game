@@ -28,7 +28,7 @@ startSkateGame = () => {
         },
         debug: false  //CHANGE THIS TO TRUE TO SEE LINES
         }   
-    }
+    };
 
     //Variables for height and width
     var gameHeight = 750;
@@ -55,7 +55,7 @@ startSkateGame = () => {
         create: create,
         update: update
     }   
-    }
+    };
 
     /* This variable will be used to make sure the skater 
     cannot ollie while he is already in the air */
@@ -88,7 +88,7 @@ startSkateGame = () => {
     function create() {
 
     //Background
-    sky = this.add.image(2500, 325,'sky')
+    sky = this.add.image(2500, 325,'sky');
     //Scale the image
     sky.setDisplaySize(gameWidth, gameHeight);
 
@@ -113,9 +113,11 @@ startSkateGame = () => {
     //Place a bench
     bench = this.matter.add.sprite(2000, 200, 'sheet', 'bench', {shapes: shapes.bench});
     bench.setScale(2, 1);
-    bench.setPosition(2250 + bench.centerOfMass.x, 200 + bench.centerOfMass.y);
+    bench.setPosition(2250 + bench.centerOfMass.x, 500 + bench.centerOfMass.y);
     //Needed this again so that bench can detect collisions
     bench.isSensor(true);
+    //This makes sure it doesn't move
+    bench.body.isStatic = true;
 
     //Create the skater
     skater = this.matter.add.sprite(0, 0, 'sheet', 'roll/0001', {shape: shapes.s0001});
@@ -370,5 +372,5 @@ startSkateGame = () => {
     //Round the score when displayed
     scoreText.setText("SCORE : " + (Math.round(score)));
     }
-}
+};
     

@@ -58,6 +58,8 @@ startSoccerGame = () => {
 
     //This is the meter above the goal that will decide the shot's direction (left to right)
     var topMeter;
+    //Meter that will decide up or down
+    var sideMeter;
 
     //Start game
     var game = new Phaser.Game(config);
@@ -98,7 +100,7 @@ startSoccerGame = () => {
         
         //Place the ball`
         ball = this.matter.add.sprite(597, 535, 'sheet', 'ball', {shape: shapes.ball});
-        ball.setBounce(0.9, 0.9);
+        ball.setBounce(0, 0);
 
         //Add our player
         player = this.matter.add.sprite(360, 600, 'sheet', 'player', {shape: shapes.player});
@@ -106,50 +108,106 @@ startSoccerGame = () => {
         //This will be our meter to aim the shot left or right
         topMeter = this.matter.add.sprite(600, 200, 'sheet', '0001');
         //Generate frames for the bars animation
-        var barFrameNames = this.anims.generateFrameNames(
+        var topbarFrameNames = this.anims.generateFrameNames(
             'sheet', {start: 1, end: 15, zeroPad: 4}
         );
         //Create an animation for it
         this.anims.create({
-            key: 'bar', frames: barFrameNames, frameRate: 26, repeat: -1, yoyo: true
+            key: 'bar', frames: topbarFrameNames, frameRate: 4, repeat: -1, yoyo: true
         });
         //Call the animation
         topMeter.anims.play('bar');
 
+        //Meter to aim the shot up or down
+        sideMeter = this.matter.add.sprite(975, 380, 'sheet', '0016');
+        sideMeter.setScale(2, 1.1);
+        //Generate frame names for the animation
+        var sidebarFrameNames = this.anims.generateFrameNames(
+            'sheet', {start: 16, end: 30, zeroPad: 4}
+        );
+        //Create animation
+        this.anims.create({
+            key: 'sideBar', frames: sidebarFrameNames, frameRate: 4, repeat: -1, yoyo: true
+        });
+        //Call the animation
+        sideMeter.anims.play('sideBar');
+
         //Get input for the spacebar
         this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         //Input for arrowkeys
-        this.arrowKeys = this.input.keyboard.addKeys({
-            up: 'up',
-            down: 'down',
-            left: 'left',
-            right: 'right'
+        this.WASDKeys = this.input.keyboard.addKeys({
+            W: 'W',
+            A: 'A',
+            S: 'S',
+            D: 'D'
         }); 
     }
 
     function update() {
 
         //Declare variable for the power of the kick
-        var kickPower = 0;
+        var kickY;
+        var kickX;
+
+        var topFrame;
+
+        const powerMapX = {
+            15: -30,
+            14: -24,
+            13: -21,
+            12: -19,
+            11: -17.5,
+
+            8: 0,
+
+            5: 17.5,
+            4: 19,
+            3: 21,
+            2: 24,
+            1: 30
+        };
 
         //If spacebar is pressed
-        if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
-
-            //If we hit dead center (animation frame 7)
-            if (topMeter.anims.currentFrame.index == 8) {
-                //Set kickpower
-                kickPower = -20;
-                console.log(topMeter.anims.currentFrame.index);
-
-            }
-            else {
-                kickPower = -5;
-                console.log(topMeter.anims.currentFrame.index);
-
-            }
-            ball.setVelocityY(kickPower);
+        if (Phaser.Input.Keyboard.JustDown(this.WASDKeys.W)) {
             //Then pause the animation AT THE CURRENT FRAME
             topMeter.anims.pause(topMeter.anims.currentFrame);
+            //If we hit a corner
+            if (topMeter.anims.currentFrame.index == 15 || topMeter.anims.currentFrame.index == 1) {
+                console.log("Money!");
+            }
+            else {
+                console.log("Better luck next time!");
+            }
+        }
+        topFrame = topMeter.anims.currentFrame.index;
+
+        //Function to search our "dictionary" for the corresponding power value to aim it
+        function getPowerX (obj, key) {
+            if (obj.hasOwnProperty(key)) {
+                return obj[key];
+            }
+        };
+        console.log(getPowerX(powerMapX, topFrame));
+
+        if (Phaser.Input.Keyboard.JustDown(this.WASDKeys.D)) {
+            //Then pause the animation AT THE CURRENT FRAME
+            sideMeter.anims.pause(sideMeter.anims.currentFrame);
+            //If we hit top or bottom
+            if (sideMeter.anims.currentFrame.index == 15 || sideMeter.anims.currentFrame.index == 1) {
+                console.log("Money!");
+            }
+            else {
+                console.log("Better luck next time!");
+            }
+        }
+        kickY = -30;
+
+        if (Phaser.Input.Keyboard.JustDown(this.WASDKeys.S)) {
+            console.log(kickX);
+            console.log(kickY);
+
+            ball.setVelocityX(kickX);
+            ball.setVelocityY(kickY);
         }
     }
 } 
