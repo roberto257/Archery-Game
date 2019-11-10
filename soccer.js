@@ -90,7 +90,7 @@ startSoccerGame = () => {
         var shapes = this.cache.json.get('shapes');
 
         //Set the boundaries of the physics engine
-        this.matter.world.setBounds(0, 0, gameWidth, 650);
+        this.matter.world.setBounds(0, 0, gameWidth, 700);
 
         //Add our goal, which we will have to piece together
         net = this.add.image(600, 378, 'net');
@@ -103,7 +103,7 @@ startSoccerGame = () => {
         ball.setBounce(0, 0);
 
         //Add our player
-        player = this.matter.add.sprite(360, 600, 'sheet', 'player', {shape: shapes.player});
+        player = this.matter.add.sprite(360, 670, 'sheet', 'player', {shape: shapes.player});
 
         //This will be our meter to aim the shot left or right
         topMeter = this.matter.add.sprite(600, 200, 'sheet', '0001');
@@ -143,71 +143,63 @@ startSoccerGame = () => {
         }); 
     }
 
-    function update() {
+    //Variables to make sure both bars are stopped before we kick, need to be declared outside of the update() function
+    var topBarStopped = false;
+    var sideBarStopped = false;
 
+    function update() {
         //Declare variable for the power of the kick
         var kickY;
         var kickX;
 
-        var topFrame;
+        //Variables to get the current frame of animation, and pass it through the function to get the power
+        var topFrame;  
+        var sideFrame;
 
+        /* These objects will be searched through later to get the power of the kick. We will pass the index
+        of the frame we were are stopped on, and get a value for the kicks X or Y velocity */
         const powerMapX = {
-            15: -30,
-            14: -24,
-            13: -21,
-            12: -19,
-            11: -17.5,
-
-            8: 0,
-
-            5: 17.5,
-            4: 19,
-            3: 21,
-            2: 24,
-            1: 30
+            15: -30, 14: -24, 13: -21, 12: -19, 11: -17.5, 10: -8,
+            9: -4, 8: 0, 7: 4, 6: 8, 5: 17.5, 4: 19, 3: 21, 2: 24, 1: 30
+        };
+        const powerMapY = {
+            1: -30, 2: -25, 3: -22, 4: -20.5, 5: -19, 6: -18.25, 7: -17.875, 8: -17.5, 
+            9: -17.125, 10: -16.75, 11: -16, 12: -14.5, 13: -13, 14: -10, 15: -5,
         };
 
-        //If spacebar is pressed
+        //Top bar
         if (Phaser.Input.Keyboard.JustDown(this.WASDKeys.W)) {
             //Then pause the animation AT THE CURRENT FRAME
             topMeter.anims.pause(topMeter.anims.currentFrame);
-            //If we hit a corner
-            if (topMeter.anims.currentFrame.index == 15 || topMeter.anims.currentFrame.index == 1) {
-                console.log("Money!");
-            }
-            else {
-                console.log("Better luck next time!");
-            }
+            topBarStopped = true;
         }
-        topFrame = topMeter.anims.currentFrame.index;
+
+        //Side bar
+        if (Phaser.Input.Keyboard.JustDown(this.WASDKeys.D)) {
+            //Then pause the animation AT THE CURRENT FRAME
+            sideMeter.anims.pause(sideMeter.anims.currentFrame);
+            sideBarStopped = true;
+        }
 
         //Function to search our "dictionary" for the corresponding power value to aim it
-        function getPowerX (obj, key) {
+        function getPower (obj, key) {
             if (obj.hasOwnProperty(key)) {
                 return obj[key];
             }
         };
-        console.log(getPowerX(powerMapX, topFrame));
 
-        if (Phaser.Input.Keyboard.JustDown(this.WASDKeys.D)) {
-            //Then pause the animation AT THE CURRENT FRAME
-            sideMeter.anims.pause(sideMeter.anims.currentFrame);
-            //If we hit top or bottom
-            if (sideMeter.anims.currentFrame.index == 15 || sideMeter.anims.currentFrame.index == 1) {
-                console.log("Money!");
-            }
-            else {
-                console.log("Better luck next time!");
-            }
-        }
-        kickY = -30;
+        //Kicking
+        if (Phaser.Input.Keyboard.JustDown(this.WASDKeys.S) && (sideBarStopped && topBarStopped)) {
+            //Get the current frames of animation so we can pass them through our function from earlier
+            sideFrame = sideMeter.anims.currentFrame.index;
+            topFrame = topMeter.anims.currentFrame.index;
+            
+            //Pass those variables through the function
+            var kickX = getPower(powerMapX, topFrame);
+            var kickY = getPower(powerMapY, sideFrame);
 
-        if (Phaser.Input.Keyboard.JustDown(this.WASDKeys.S)) {
-            console.log(kickX);
-            console.log(kickY);
-
-            ball.setVelocityX(kickX);
-            ball.setVelocityY(kickY);
+            //Kick the ball
+            ball.setVelocity(kickX, kickY);
         }
     }
 } 
